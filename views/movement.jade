@@ -1,0 +1,40 @@
+extends ./layout.jade
+block contenido
+  h1 Cargar movimiento
+  p Usuario:
+  p!=user
+  a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
+  form(action="/uploadmovement",method="POST")
+    //- div
+    //-   label(for="username") Nombre de usuario
+    //-   input(type="text", name="username",placeholder="Nombre de usuario", class="form-control")
+    //- div
+    //-   label(for="grupo") Grupo
+    //-   input(type="text", name="grupo",placeholder="Grupo", class="form-control")
+    //- div
+    //-   label(for="compania") Compania
+    //-   input(type="text", name="compania",placeholder="Compania", class="form-control")
+    //- div
+    //-   label(for="adminname") Administrador
+    //-   input(type="text", name="adminname",list="administradores",placeholder="Administrador", class="form-control")
+    //-   datalist(id="administradores")
+    //-     for admin in administradores
+    //-       option(value=admin)
+    div
+      label(for="fondoname") Administrador - Nombre de fondo
+      input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", class="form-control")
+      datalist(id="fondos")
+        for fondo in fondos
+          option(value=fondo)
+    div
+      label(for="tipooper") Tipo de operación
+      input(type="text", name="tipooper", list="operaciones", placeholder="Tipo de operación", class="form-control")
+      datalist(id="operaciones")
+        option(value="Suscripción")
+        option(value="Rescate")
+    div
+      label(for="importe") Importe
+      input(type="number", name="importe",placeholder="0", class="form-control")
+    p(class="error")!=error
+    div
+      input(type="submit" value="Subir Movimiento" class="btn btn-info btncss")

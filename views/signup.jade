@@ -1,0 +1,24 @@
+extends ./layout.jade
+block contenido
+  h1 Registrarse
+  form(action="/users",method="POST")
+    div(class="form-group")
+      label(for="email") Email
+      input(type="text", name="email", placeholder="email@email.com", class="form-control")
+    div
+      label(for="username") Nombre de usuario
+      input(type="text", name="username",placeholder="Nombre de usuario", class="form-control")
+    div
+      label(for="grupo") Grupo
+      input(type="text", name="grupo",placeholder="Grupo", class="form-control")
+    div
+      label(for="compania") Compania
+      input(type="text", name="compania",placeholder="Compania", class="form-control")
+    div
+      label(for="password") Contraseña
+      input(type="password", name="password",placeholder="password", class="form-control")
+    div
+      label(for="password") Confirma tu contraseña
+      input(type="password", name="password_confirmation",placeholder="password", class="form-control")
+    div
+      input(type="submit" value="Registrarse" class="btn btn-info btncss")
