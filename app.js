@@ -8,6 +8,8 @@ var session_middleware = require("./middlewares/session");
 var fondos = require("./public/metadata.json");
 var getPostgres = require("./models/movement_pg").getPostgres;
 
+const serverless = require('serverless-http');
+
 var app = express();
 
 app.use("/estatico",express.static('public'));
@@ -161,6 +163,10 @@ app.post("/sessions",function(req,res){
 });
 
 app.use("/app",session_middleware);
-app.use("/app",router_app);
 
-app.listen(8080);
+//SI CORRO DESDE LOCAL
+// app.use("/app",router_app);
+// app.listen(8080);
+
+//SI LO CORRO DESDE NETLIFY
+app.use("/.netlify/functions/api",router_app);
