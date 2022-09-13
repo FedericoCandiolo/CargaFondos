@@ -5,7 +5,8 @@ var Movement = require('./models/movement').Movement;
 var session = require("express-session");
 var router_app = require("./routes_app");
 var session_middleware = require("./middlewares/session");
-var fondos = require("./public/metadata.json")
+var fondos = require("./public/metadata.json");
+var getPostgres = require("./models/movement_pg").getPostgres;
 
 var app = express();
 
@@ -100,27 +101,32 @@ app.get("/close",function(req,res){
 })
 
 app.post("/uploadmovement",function(req,res){
-	var movement = new Movement({
-    idoperacion: Date.now(),
-    time: new Date(),
-    username: req.session.user.username,
-    groupname: req.session.user.groupname,
-    // groupname: req.body.grupo,
-    companyname: req.session.user.companyname,
-    // companyname: req.body.compania,
-    adminname: fondos
-      .map((fd) => fd.depositaria_nombre)
-      .filter((fd) => req.body.fondoname.match(fd))[0],
-    fondoname: fondos
-      .map((fd) => fd.clase_fondo_nombre)
-      .filter((fd) => req.body.fondoname.match(fd))[0],
-    tipooperacion: req.body.tipooper,
-    importe:
-      req.body.tipooper === 'Rescate' ? -req.body.importe : req.body.importe,
-  });
-	  console.log(movement);
-	  console.log("SESION");
-	  console.log(req.session);
+	var movement_obj = {
+		idoperacion: Date.now(),
+		time: new Date(),
+		username: req.session.user.username,
+		groupname: req.session.user.groupname,
+		// groupname: req.body.grupo,
+		companyname: req.session.user.companyname,
+		// companyname: req.body.compania,
+		adminname: fondos
+		.map((fd) => fd.depositaria_nombre)
+		.filter((fd) => req.body.fondoname.match(fd))[0],
+		fondoname: fondos
+		.map((fd) => fd.clase_fondo_nombre)
+		.filter((fd) => req.body.fondoname.match(fd))[0],
+		tipooperacion: req.body.tipooper,
+		importe:
+		req.body.tipooper === 'Rescate' ? -req.body.importe : req.body.importe,
+	};
+	var movement = new Movement(movement_obj);
+	console.log("POSTGRES=============");
+	console.log(movement_obj);
+	getPostgres(movement_obj);
+	console.log("POSTGRES=============");
+	console.log(movement);
+	console.log("SESION");
+	console.log(req.session);
 	movement.save().then(
     function (us) {
 	  //alert('Se guardo exitosamente el movimiento');

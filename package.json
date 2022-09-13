@@ -13,6 +13,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "jade": "^1.11.0",
-    "mongoose": "^5.10.11"
+    "mongoose": "^5.10.11",
+    "pg": "^8.8.0"
   }
 }
