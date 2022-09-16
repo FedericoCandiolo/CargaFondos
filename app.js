@@ -169,4 +169,6 @@ app.use("/app",session_middleware);
 // app.listen(8080);
 
 //SI LO CORRO DESDE NETLIFY
-app.use("/.netlify/functions/api",router_app);
+app.use("/.netlify/functions/app",router_app);
+
+module.exports.handler = serverless(app);
