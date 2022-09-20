@@ -118,7 +118,10 @@ app.post("/uploadmovement",function(req,res){
 		tipooperacion: req.body.tipooper,
 		importe:
 		req.body.tipooper === 'Rescate' ? -req.body.importe : req.body.importe,
+		fechaoperacion: req.body.fechaoper,
 	};
+	console.log("FECHA OPERACION")
+	console.log(req.body.fechaoper);
 	var movement = new Movement(movement_obj);
 	console.log("POSTGRES=============");
 	console.log(movement_obj);

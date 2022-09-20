@@ -21,6 +21,9 @@ block contenido
     //-     for admin in administradores
     //-       option(value=admin)
     div
+      label(for="fechaoper") Fecha de operación
+      input(type="date", name="fechaoper",placeholder="", class="form-control")
+    div
       label(for="fondoname") Administrador - Nombre de fondo
       input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", class="form-control")
       datalist(id="fondos")

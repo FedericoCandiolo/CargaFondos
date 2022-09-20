@@ -40,6 +40,9 @@ var movement_schema = new Schema({
   importe: {
     type: Number,
     required: true
+  },
+  fechaoperacion: {
+    type: Date
   }
 });
 

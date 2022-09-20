@@ -10,6 +10,7 @@ const getPostgres = ({
   fondoname,
   tipooperacion,
   importe,
+  fechaoperacion
 }) => {
   console.log('INICIO POSTGRES');
   const client = new Client({
@@ -24,7 +25,7 @@ const getPostgres = ({
   console.log('CONNECTED POSTGRES');
 
   client.query(
-    `INSERT INTO movements (idoperacion, time,username,groupname,companyname,adminname,fondoname,tipooperacion,importe) VALUES
+    `INSERT INTO movements (idoperacion, time,username,groupname,companyname,adminname,fondoname,tipooperacion,importe,fechaoperacion) VALUES
         (
             '${idoperacion}',
             '${time.toString().substring(0, 23)}+00:00',
@@ -34,7 +35,8 @@ const getPostgres = ({
             '${adminname}',
             '${fondoname}',
             '${tipooperacion}',
-            ${importe}
+            ${importe},
+            '${fechaoperacion}'
         );`,
     (err, res) => {
       if (!err) {
