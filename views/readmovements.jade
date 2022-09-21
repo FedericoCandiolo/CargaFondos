@@ -3,11 +3,35 @@ block contenido
   h1 Listado de movimientos
   p Usuario:
   p!=user
-  div
-    for mov in movimientos
-      p!=mov.id
   a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
   a(href="/cmovement" class="btn btn-primary btn-lg btncss" role="button") Subir movimiento
   a(href="/umovement" class="btn btn-primary btn-lg btncss" role="button") Editar movimiento
   a(href="/dmovement" class="btn btn-primary btn-lg btncss" role="button") Eliminar movimiento
+  h3 Mis Movimientos
+  table
+    tr
+      th ID
+      th Username
+      th Grupo
+      th Compañía
+      th Administrador
+      th Fondo
+      th Tipo Operación
+      th Importe
+      th Fecha Operación
+    for mov in movimientos
+      tr
+        td!=mov.idoperacion
+        td!=mov.username
+        td!=mov.groupname
+        td!=mov.companyname
+        td!=mov.adminname
+        td!=mov.fondoname
+        td!=mov.tipooperacion
+        td!=mov.importe
+        td!=mov.fechaoperacion
+        td
+          a(href=`/umovement/${mov.idoperacion}` class=" btn-lg btncss" role="button") Modificar
+          a(href=`/dmovement/${mov.idoperacion}` class=" btn-lg btncss" role="button") Eliminar
+  
   

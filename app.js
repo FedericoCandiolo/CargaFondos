@@ -56,11 +56,25 @@ app.get("/cmovement",function(req,res){
 	});
 });
 
+function padTo2Digits(num) {
+  return num.toString().padStart(2, '0');
+}
+
+function formatDate(datestr) {
+  if(!datestr) return "";
+  let date = new Date(datestr);
+  return `${padTo2Digits(date.getDate())}/${padTo2Digits(date.getMonth())}/${date.getFullYear()}`;
+}
+
 app.get('/rmovement', function (req, res) {
     Movement.find(function(err,doc){
 		console.log("DOC");
 		console.log(doc);
-		let mismovimientos = doc.filter(m=>m.username === req.session.user.username);
+		let mismovimientos = doc.filter(m=>m.username === req.session.user.username)
+		.map(mov=>({...mov._doc, fechaoperacion: formatDate(mov.fechaoperacion)}))
+		;
+		console.log("MM")
+		console.log(mismovimientos)
 		res.render('readmovements', {
 			user:  req.session.user.username,
 			movimientos: mismovimientos,
