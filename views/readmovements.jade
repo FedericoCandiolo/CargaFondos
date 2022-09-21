@@ -1,0 +1,13 @@
+extends ./layout.jade
+block contenido
+  h1 Listado de movimientos
+  p Usuario:
+  p!=user
+  div
+    for mov in movimientos
+      p!=mov.id
+  a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
+  a(href="/cmovement" class="btn btn-primary btn-lg btncss" role="button") Subir movimiento
+  a(href="/umovement" class="btn btn-primary btn-lg btncss" role="button") Editar movimiento
+  a(href="/dmovement" class="btn btn-primary btn-lg btncss" role="button") Eliminar movimiento
+  

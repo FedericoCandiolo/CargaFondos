@@ -25,7 +25,7 @@ const unique = arr => [... new Set(arr)];
 app.set("view engine","jade");
 
 app.get("/",function(req,res){
-	if(req.session.user_id) res.redirect("/movement");
+	if(req.session.user_id) res.redirect("/rmovement");
 	else{
 		console.log(req.session.user_id);
 		res.render("index");
@@ -39,7 +39,7 @@ app.get("/signup",function(req,res){
 	});
 });
 
-app.get("/movement",function(req,res){
+app.get("/cmovement",function(req,res){
 	Movement.find(function(err,doc){
 		console.log(doc);
 		console.log("LOCALS")
@@ -54,6 +54,26 @@ app.get("/movement",function(req,res){
 			),
 		});
 	});
+});
+
+app.get('/rmovement', function (req, res) {
+    Movement.find(function(err,doc){
+		console.log("DOC");
+		console.log(doc);
+		let mismovimientos = doc.filter(m=>m.username === req.session.user.username);
+		res.render('readmovements', {
+			user:  req.session.user.username,
+			movimientos: mismovimientos,
+		});	
+	});
+//   const movimientos = await getPostgres.read({username: req.session.user.username});
+//   console.log("MOVS");
+//   console.log(movimientos);
+//   res.render('readmovements', {
+// 		user: req.session.user.username,
+// 		movimientos	
+// 	}
+//   );
 });
 
 app.get("/login",function(req,res){
@@ -125,7 +145,7 @@ app.post("/uploadmovement",function(req,res){
 	var movement = new Movement(movement_obj);
 	console.log("POSTGRES=============");
 	console.log(movement_obj);
-	getPostgres(movement_obj);
+	getPostgres.insert(movement_obj);
 	console.log("POSTGRES=============");
 	console.log(movement);
 	console.log("SESION");
