@@ -63,15 +63,24 @@ function padTo2Digits(num) {
 function formatDate(datestr) {
   if(!datestr) return "";
   let date = new Date(datestr);
-  return `${padTo2Digits(date.getDate())}/${padTo2Digits(date.getMonth())}/${date.getFullYear()}`;
+  return `${padTo2Digits(date.getDate())}/${padTo2Digits(date.getMonth()+1)}/${date.getFullYear()}`;
 }
+
+const formatMoney = num => Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+}).format(Math.abs(num));
 
 app.get('/rmovement', function (req, res) {
     Movement.find(function(err,doc){
 		console.log("DOC");
 		console.log(doc);
 		let mismovimientos = doc.filter(m=>m.username === req.session.user.username)
-		.map(mov=>({...mov._doc, fechaoperacion: formatDate(mov.fechaoperacion)}))
+		.map(mov=>({
+			...mov._doc, 
+			fechaoperacion: formatDate(mov.fechaoperacion),
+			importe: formatMoney(mov.importe)
+		}))
 		;
 		console.log("MM")
 		console.log(mismovimientos)

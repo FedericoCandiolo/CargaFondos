@@ -1,8 +1,6 @@
 const {Client} = require('pg');
 
-const readPG = async ({
-  username
-}) => {
+const readPG = async () => {
   console.log('INICIO POSTGRES');
   const client = new Client({
     host: 'kesavan.db.elephantsql.com',
@@ -16,7 +14,7 @@ const readPG = async ({
   console.log('CONNECTED POSTGRES');
 
   client.query(
-    `SELECT * from movements WHERE username = '${username}'
+    `SELECT * from movements
     ;`,
     (err, res) => {
       if (!err) {
