@@ -1,8 +1,45 @@
 body{
-  background-color: red;
+  background-color: #fff;
+  margin: 5rem;
+}
+
+.block{
+  display: block;
+}
+
+.flex{
+  display: flex;
+  align-content: space-between;
 }
 
 .btncss{
-  background-color: #448844;
-  color: aliceblue;
+  background-color: inherit;
+  color: black;
+  border: black solid;
+  margin: 1rem 1rem 0 0;
 }
+
+.btncss:hover{
+  background-color: #ccc;
+  color: black;
+  border: black solid;
+}
+
+
+.padding_r{
+  padding: 0 1rem 0 0;
+}
+
+.btninline{
+  font-size: large;
+  color: #337ab7;
+  text-decoration: none;
+  margin: 1rem; 
+}
+
+.margindown{
+  border-collapse: separate; 
+  border-spacing: 0 5em;
+  
+}
+

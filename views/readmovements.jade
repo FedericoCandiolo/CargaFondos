@@ -5,8 +5,6 @@ block contenido
   p!=user
   a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
   a(href="/cmovement" class="btn btn-primary btn-lg btncss" role="button") Subir movimiento
-  a(href="/umovement" class="btn btn-primary btn-lg btncss" role="button") Editar movimiento
-  a(href="/dmovement" class="btn btn-primary btn-lg btncss" role="button") Eliminar movimiento
   h3 Mis Movimientos
   table
     tr
@@ -16,22 +14,22 @@ block contenido
       th Compañía
       th Administrador
       th Fondo
-      th Tipo Operación
+      th(class="padding_r") Tipo Operación
       th Importe
-      th Fecha Operación
+      th Fecha
     for mov in movimientos
-      tr
-        td!=mov.idoperacion
-        td!=mov.username
-        td!=mov.groupname
-        td!=mov.companyname
-        td!=mov.adminname
-        td!=mov.fondoname
-        td!=mov.tipooperacion
-        td!=mov.importe
-        td!=mov.fechaoperacion
+      tr(class="margindown")
+        td(class="padding_r")!=mov.idoperacion
+        td(class="padding_r")!=mov.username
+        td(class="padding_r")!=mov.groupname
+        td(class="padding_r")!=mov.companyname
+        td(class="padding_r")!=mov.adminname
+        td(class="padding_r")!=mov.fondoname
+        td(class="padding_r")!=mov.tipooperacion
+        td(class="padding_r")!=mov.importe
+        td(class="padding_r")!=mov.fechaoperacion
         td
-          a(href=`/umovement/${mov.idoperacion}` class=" btn-lg btncss" role="button") Modificar
-          a(href=`/dmovement/${mov.idoperacion}` class=" btn-lg btncss" role="button") Eliminar
+          a(href=`/umovement/${mov.idoperacion}` class=" btninline " role="button") Modificar
+          a(href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button") Eliminar
   
   

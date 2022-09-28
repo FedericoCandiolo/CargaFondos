@@ -1,6 +1,6 @@
-const {Client} = require('pg');
+const { Client } = require('pg');
 
-const readPG = async () => {
+const readPG = async ({ username }) => {
   console.log('INICIO POSTGRES');
   const client = new Client({
     host: 'kesavan.db.elephantsql.com',
@@ -14,11 +14,11 @@ const readPG = async () => {
   console.log('CONNECTED POSTGRES');
 
   client.query(
-    `SELECT * from movements
+    `SELECT * from movements WHERE username = '${username}'
     ;`,
     (err, res) => {
       if (!err) {
-        while(!res.rows);
+        while (!res.rows);
         console.log('OK');
         console.log(res.rows);
         return res.rows;
@@ -42,7 +42,7 @@ const insertPG = ({
   fondoname,
   tipooperacion,
   importe,
-  fechaoperacion
+  fechaoperacion,
 }) => {
   console.log('INICIO POSTGRES');
   const client = new Client({
@@ -85,9 +85,95 @@ const insertPG = ({
   console.log('POST END');
 };
 
+const updatePG = ({
+  idoperacion,
+  adminname,
+  fondoname,
+  tipooperacion,
+  importe,
+  fechaoperacion,
+}) => {
+  console.log('INICIO POSTGRES');
+  const client = new Client({
+    host: 'kesavan.db.elephantsql.com',
+    user: 'velltdrp',
+    port: 5432,
+    password: 'X37URSS9XhsoVI3Y1BR2uue0SKEpXIzC',
+    database: 'velltdrp',
+  });
+
+  client.connect();
+  console.log('CONNECTED POSTGRES');
+
+  client.query(
+    `UPDATE movements
+    SET
+      adminname = '${adminname}',
+      fondoname = '${fondoname}',
+      tipooperacion = '${tipooperacion}',
+      importe = ${importe},
+      fechaoperacion = '${fechaoperacion}'
+    WHERE idoperacion = '${idoperacion}'
+    ;`,
+    (err, res) => {
+      if (!err) {
+        console.log('OK');
+        console.log(res.rows);
+      } else {
+        console.log('NOT OK');
+        console.log(err.message);
+      }
+      client.end;
+      console.log('QUERY END');
+    }
+  );
+  console.log('POST END');
+};
+
+
+const deletePG = ({
+  idoperacion
+}) => {
+  console.log('INICIO POSTGRES');
+  const client = new Client({
+    host: 'kesavan.db.elephantsql.com',
+    user: 'velltdrp',
+    port: 5432,
+    password: 'X37URSS9XhsoVI3Y1BR2uue0SKEpXIzC',
+    database: 'velltdrp',
+  });
+
+  client.connect();
+  console.log('CONNECTED POSTGRES');
+
+  console.log(`DELETE FROM movements
+     WHERE idoperacion = '${idoperacion}'
+    ;`);
+
+  client.query(
+    `DELETE FROM movements
+     WHERE idoperacion = '${idoperacion}'
+    ;`,
+    (err, res) => {
+      if (!err) {
+        console.log('OK');
+        console.log(res.rows);
+      } else {
+        console.log('NOT OK');
+        console.log(err.message);
+      }
+      client.end;
+      console.log('QUERY END');
+    }
+  );
+  console.log('POST END');
+};
+
 const getPostgres = {
   insert: insertPG,
   read: readPG,
-}
+  update: updatePG,
+  delete: deletePG,
+};
 
 module.exports.getPostgres = getPostgres;

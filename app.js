@@ -34,16 +34,16 @@ app.get("/",function(req,res){
 
 app.get("/signup",function(req,res){
 	User.find(function(err,doc){
-		console.log(doc);
+		// console.log(doc);
 		res.render("signup");
 	});
 });
 
 app.get("/cmovement",function(req,res){
 	Movement.find(function(err,doc){
-		console.log(doc);
-		console.log("LOCALS")
-		console.log(res.locals);
+		// console.log(doc);
+		// console.log("LOCALS")
+		// console.log(res.locals);
 		res.render('movement', {
 			user:  req.session.user.username,
 			error: '',
@@ -66,6 +66,13 @@ function formatDate(datestr) {
   return `${padTo2Digits(date.getDate())}/${padTo2Digits(date.getMonth()+1)}/${date.getFullYear()}`;
 }
 
+function formatDateYYYYMMDD(datestr) {
+  if (!datestr) return '';
+  let date = new Date(datestr);
+  return `${date.getFullYear()}${padTo2Digits(date.getMonth() + 1)}${padTo2Digits(
+    date.getDate())}`;
+}
+
 const formatMoney = num => Intl.NumberFormat('es-AR', {
   style: 'currency',
   currency: 'ARS',
@@ -73,17 +80,24 @@ const formatMoney = num => Intl.NumberFormat('es-AR', {
 
 app.get('/rmovement', function (req, res) {
     Movement.find(function(err,doc){
-		console.log("DOC");
-		console.log(doc);
-		let mismovimientos = doc.filter(m=>m.username === req.session.user.username)
-		.map(mov=>({
-			...mov._doc, 
-			fechaoperacion: formatDate(mov.fechaoperacion),
-			importe: formatMoney(mov.importe)
-		}))
-		;
-		console.log("MM")
-		console.log(mismovimientos)
+		// console.log("DOC");
+		// console.log(doc);
+		let mismovimientos = doc
+      .filter((m) => m.username === req.session.user.username)
+      .map((mov) => ({
+        ...mov._doc,
+        fecha_ts: formatDateYYYYMMDD(mov.fechaoperacion),
+        fechaoperacion: formatDate(mov.fechaoperacion),
+        importe: formatMoney(mov.importe),
+      }))
+      .sort(
+        (m1, m2) =>
+          m1.fecha_ts <= m2.fecha_ts
+	  )
+	  .reverse();
+		
+		console.log(mismovimientos);
+
 		res.render('readmovements', {
 			user:  req.session.user.username,
 			movimientos: mismovimientos,
@@ -98,6 +112,22 @@ app.get('/rmovement', function (req, res) {
 // 	}
 //   );
 });
+
+app.get('/umovement/:id',function(req,res){
+	//////////IR A FORMULARIO CON VALORES VIEJOS CARGADOS
+});
+
+app.get('/dmovement/:id',function(req,res){
+	console.log("IDMOV");
+	console.log(req.params);
+	console.log(req.params.id);
+	getPostgres.delete({idoperacion: req.params.id});
+	Movement.deleteOne({idoperacion: req.params.id})
+	.then(()=>console.log("Eliminado"))
+	.catch(()=>console.log("NO ELIMINADO!!!"));
+	res.redirect('/');
+});
+
 
 app.get("/login",function(req,res){
 	res.render("login");
@@ -163,16 +193,16 @@ app.post("/uploadmovement",function(req,res){
 		req.body.tipooper === 'Rescate' ? -req.body.importe : req.body.importe,
 		fechaoperacion: req.body.fechaoper,
 	};
-	console.log("FECHA OPERACION")
-	console.log(req.body.fechaoper);
+	// console.log("FECHA OPERACION")
+	// console.log(req.body.fechaoper);
 	var movement = new Movement(movement_obj);
-	console.log("POSTGRES=============");
-	console.log(movement_obj);
+	// console.log("POSTGRES=============");
+	// console.log(movement_obj);
 	getPostgres.insert(movement_obj);
-	console.log("POSTGRES=============");
-	console.log(movement);
-	console.log("SESION");
-	console.log(req.session);
+	// console.log("POSTGRES=============");
+	// console.log(movement);
+	// console.log("SESION");
+	// console.log(req.session);
 	movement.save().then(
     function (us) {
 	  //alert('Se guardo exitosamente el movimiento');
