@@ -93,6 +93,20 @@ const updatePG = ({
   importe,
   fechaoperacion,
 }) => {
+
+  function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+  }
+
+  function formatDateYYYY_MM_DD(datestr) {
+    if (!datestr) return '';
+    console.log(datestr);
+    let date = new Date(datestr);
+    return `${date.getFullYear()}-${padTo2Digits(
+      date.getMonth() + 1
+    )}-${padTo2Digits(date.getDate())}`;
+  }
+
   console.log('INICIO POSTGRES');
   const client = new Client({
     host: 'kesavan.db.elephantsql.com',
@@ -105,6 +119,15 @@ const updatePG = ({
   client.connect();
   console.log('CONNECTED POSTGRES');
 
+  console.log(`UPDATE movements
+    SET
+      adminname = '${adminname}',
+      fondoname = '${fondoname}',
+      tipooperacion = '${tipooperacion}',
+      importe = ${importe},
+      fechaoperacion = '${formatDateYYYY_MM_DD(fechaoperacion)}'
+    WHERE idoperacion = '${idoperacion}'`);
+
   client.query(
     `UPDATE movements
     SET
@@ -112,7 +135,7 @@ const updatePG = ({
       fondoname = '${fondoname}',
       tipooperacion = '${tipooperacion}',
       importe = ${importe},
-      fechaoperacion = '${fechaoperacion}'
+      fechaoperacion = '${formatDateYYYY_MM_DD(fechaoperacion)}'
     WHERE idoperacion = '${idoperacion}'
     ;`,
     (err, res) => {

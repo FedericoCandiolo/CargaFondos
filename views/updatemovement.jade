@@ -1,0 +1,28 @@
+extends ./layout.jade
+block contenido
+  h1 Modificar movimiento
+  p Usuario:
+  p!=user
+  a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
+  form(action=`/umovement/${movimiento.idoperacion}`,method="POST")
+    div
+      label(for="fechaoper") Fecha de operación
+      input(type="date", name="fechaoper",placeholder="", value= fechaformat class="form-control")
+    div
+      label(for="fondoname") Administrador - Nombre de fondo
+      input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", value = movimiento.adminname + ' - ' + movimiento.fondoname class="form-control")
+      datalist(id="fondos")
+        for fondo in fondos
+          option(value=fondo)
+    div
+      label(for="tipooper") Tipo de operación
+      input(type="text", name="tipooper", list="operaciones", placeholder="Tipo de operación", value = movimiento.tipooperacion, class="form-control")
+      datalist(id="operaciones")
+        option(value="Suscripción")
+        option(value="Rescate")
+    div
+      label(for="importe") Importe
+      input(type="number", name="importe",placeholder="0", class="form-control", value = importe)
+    p(class="error")!=error
+    div
+      input(type="submit" value="Modificar Movimiento" class="btn btn-info btncss")

@@ -73,6 +73,14 @@ function formatDateYYYYMMDD(datestr) {
     date.getDate())}`;
 }
 
+function formatDateYYYY_MM_DD(datestr) {
+  if (!datestr) return '';
+  let date = new Date(datestr);
+  return `${date.getFullYear()}-${padTo2Digits(
+    date.getMonth() + 1
+  )}-${padTo2Digits(date.getDate())}`;
+}
+
 const formatMoney = num => Intl.NumberFormat('es-AR', {
   style: 'currency',
   currency: 'ARS',
@@ -113,9 +121,6 @@ app.get('/rmovement', function (req, res) {
 //   );
 });
 
-app.get('/umovement/:id',function(req,res){
-	//////////IR A FORMULARIO CON VALORES VIEJOS CARGADOS
-});
 
 app.get('/dmovement/:id',function(req,res){
 	console.log("IDMOV");
@@ -126,6 +131,28 @@ app.get('/dmovement/:id',function(req,res){
 	.then(()=>console.log("Eliminado"))
 	.catch(()=>console.log("NO ELIMINADO!!!"));
 	res.redirect('/');
+});
+
+app.get('/umovement/:id', function (req, res) {
+  console.log('IDMOV');
+  Movement.find(function (err, doc) {
+    // console.log("DOC");
+    // console.log(doc);
+	let movimiento = doc.filter((m) => m.idoperacion === req.params.id)[0];
+	console.log('==========MOVIMIENTO==============');
+    console.log(movimiento);
+    res.render('updatemovement', {
+	  user: req.session.user.username,	  
+	  fechaformat: formatDateYYYY_MM_DD(movimiento.fechaoperacion),
+	  importe: Math.abs(movimiento.importe),
+      movimiento,
+      error: '',
+      administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
+      fondos: fondos.map(
+        (fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
+      ),
+    });
+  });
 });
 
 
@@ -179,9 +206,7 @@ app.post("/uploadmovement",function(req,res){
 		time: new Date(),
 		username: req.session.user.username,
 		groupname: req.session.user.groupname,
-		// groupname: req.body.grupo,
 		companyname: req.session.user.companyname,
-		// companyname: req.body.compania,
 		adminname: fondos
 		.map((fd) => fd.depositaria_nombre)
 		.filter((fd) => req.body.fondoname.match(fd))[0],
@@ -193,19 +218,10 @@ app.post("/uploadmovement",function(req,res){
 		req.body.tipooper === 'Rescate' ? -req.body.importe : req.body.importe,
 		fechaoperacion: req.body.fechaoper,
 	};
-	// console.log("FECHA OPERACION")
-	// console.log(req.body.fechaoper);
 	var movement = new Movement(movement_obj);
-	// console.log("POSTGRES=============");
-	// console.log(movement_obj);
 	getPostgres.insert(movement_obj);
-	// console.log("POSTGRES=============");
-	// console.log(movement);
-	// console.log("SESION");
-	// console.log(req.session);
 	movement.save().then(
     function (us) {
-	  //alert('Se guardo exitosamente el movimiento');
 	  res.redirect("/");
     },
     function (err) {
@@ -222,6 +238,51 @@ app.post("/uploadmovement",function(req,res){
       }
     }
   )
+});
+
+app.post("/umovement/:id",function(req,res){
+	console.log('IDMOV');
+  Movement.find(function (err, doc) {
+	let movimiento = doc.filter((m) => m.idoperacion === req.params.id)[0];
+	movimiento.fechaoperacion = req.body.fechaoper;
+	movimiento.adminname = fondos
+		.map((fd) => fd.depositaria_nombre)
+		.filter((fd) => req.body.fondoname.match(fd))[0];
+	movimiento.fondoname = fondos
+		.map((fd) => fd.clase_fondo_nombre)
+		.filter((fd) => req.body.fondoname.match(fd))[0];
+	movimiento.tipooperacion = req.body.tipooper;
+	movimiento.importe = req.body.tipooper === 'Rescate' ? -req.body.importe : req.body.importe;
+
+	console.log("MOVIMIENTO A CARGAR");
+	console.log(movimiento);
+
+	getPostgres.update(movimiento);
+	Movement.findOneAndUpdate({idoperacion: req.params.id}, movimiento).then(
+    function (us) {
+      //alert('Se guardo exitosamente el movimiento');
+      res.redirect('/');
+    },
+    function (err) {
+      if (err) {
+        console.log(String(err));
+        res.render('updatemovement', {
+          error: String(err),
+          user: req.session.user.username,
+          fechaformat: formatDateYYYY_MM_DD(movimiento.fechaoperacion),
+          importe: Math.abs(movimiento.importe),
+          movimiento,
+          error: '',
+          administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
+          fondos: fondos.map(
+            (fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
+          ),
+        });
+      }
+    }
+  );
+});
+	
 });
 
 app.post("/sessions",function(req,res){
