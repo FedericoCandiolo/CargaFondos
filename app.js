@@ -19,7 +19,6 @@ app.use(session({
 	saveUninitialized: false
 }));
 
-
 const unique = arr => [... new Set(arr)];
 
 app.set("view engine","jade");
@@ -40,6 +39,8 @@ app.get("/signup",function(req,res){
 });
 
 app.get("/cmovement",function(req,res){
+	if (!req.session.user_id) res.redirect('/');
+	else{
 	Movement.find(function(err,doc){
 		// console.log(doc);
 		// console.log("LOCALS")
@@ -54,6 +55,7 @@ app.get("/cmovement",function(req,res){
 			),
 		});
 	});
+}
 });
 
 function padTo2Digits(num) {
@@ -87,6 +89,8 @@ const formatMoney = num => Intl.NumberFormat('es-AR', {
 }).format(Math.abs(num));
 
 app.get('/rmovement', function (req, res) {
+	if (!req.session.user_id) res.redirect('/');
+	else{
     Movement.find(function(err,doc){
 		// console.log("DOC");
 		// console.log(doc);
@@ -111,18 +115,13 @@ app.get('/rmovement', function (req, res) {
 			movimientos: mismovimientos,
 		});	
 	});
-//   const movimientos = await getPostgres.read({username: req.session.user.username});
-//   console.log("MOVS");
-//   console.log(movimientos);
-//   res.render('readmovements', {
-// 		user: req.session.user.username,
-// 		movimientos	
-// 	}
-//   );
+	}
 });
 
 
 app.get('/dmovement/:id',function(req,res){
+	if (!req.session.user_id) res.redirect('/');
+	else{
 	console.log("IDMOV");
 	console.log(req.params);
 	console.log(req.params.id);
@@ -131,9 +130,12 @@ app.get('/dmovement/:id',function(req,res){
 	.then(()=>console.log("Eliminado"))
 	.catch(()=>console.log("NO ELIMINADO!!!"));
 	res.redirect('/');
+	}
 });
 
 app.get('/umovement/:id', function (req, res) {
+  if (!req.session.user_id) res.redirect('/');
+  else{
   console.log('IDMOV');
   Movement.find(function (err, doc) {
     // console.log("DOC");
@@ -153,6 +155,7 @@ app.get('/umovement/:id', function (req, res) {
       ),
     });
   });
+}
 });
 
 
