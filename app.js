@@ -1,7 +1,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+
 var User = require("./models/user").User;
 var Movement = require('./models/movement').Movement;
+var Group = require('./models/group').Group;
+var Company = require('./models/company').Company;
+
 var session = require("express-session");
 var router_app = require("./routes_app");
 var session_middleware = require("./middlewares/session");
@@ -33,8 +37,13 @@ app.get("/",function(req,res){
 
 app.get("/signup",function(req,res){
 	User.find(function(err,doc){
+		//Me tengo que traer los grupos, crear el modelo
+		Group.find(function(groups_err,groups_doc){
+			console.log("GRUPOS")
+			console.log(doc);
+			res.render("signup",{groups: groups_doc.map(g=>g.nombregrupo)});
+		});
 		// console.log(doc);
-		res.render("signup");
 	});
 });
 
@@ -45,16 +54,28 @@ app.get("/cmovement",function(req,res){
 		// console.log(doc);
 		// console.log("LOCALS")
 		// console.log(res.locals);
-		res.render('movement', {
-			user:  req.session.user.username,
-			error: '',
-			administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
-			//   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
-			fondos: fondos.map(
-				(fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
-			),
-		});
-	});
+		Group.findOne((err_group,doc_group)=>{
+		// 	console.log(doc_group)
+		// 	let usergroupid = doc_group
+        // .filter((g) => g._doc.name === req.session.user.groupname)
+		// .map((g) => c._doc.groupid)[0];
+			let usergroupid = doc_group.idgrupo;
+			Company.find((err_comp,doc_comp)=>{
+				console.log(doc_comp);
+				let companies = doc_comp.filter(c=>c._doc.groupid === usergroupid).map(c=>c._doc.companyname);
+				res.render('movement', {
+					user:  req.session.user.username,
+					error: '',
+					empresas: companies,
+					administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
+					//   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
+					fondos: fondos.map(
+						(fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
+					),
+				});
+			});
+		})
+		})
 }
 });
 
@@ -160,6 +181,7 @@ app.get('/umovement/:id', function (req, res) {
 
 
 app.get("/login",function(req,res){
+	//Me tengo que traer los grupos, crear el modelo
 	res.render("login");
 });
 
@@ -168,31 +190,48 @@ app.post("/users",function(req,res){
     email: req.body.email,
     username: req.body.username,
     groupname: req.body.grupo,
-    companyname: req.body.compania,
+    //companyname: req.body.compania,
     password: req.body.password,
     password_confirmation: req.body.password_confirmation,
   });
 	console.log(user.password_confirmation);
-
-	user.save().then(function(us){
-		//alert("Se guardo exitosamente el usuario");
-		User.findOne(
-			{ 
-				username: req.body.username, password: req.body.password },
-			function (err, user) {
-				req.session.user_id = user._id;
-				req.session.user = user;
-				res.redirect('/');
-				//res.send("hola mundo");
-			}
-		);
-		//res.redirect("/");
-	},function(err){
-		if(err){
-				//console.log(String(err));
-				res.redirect("/login");
-			}
-	});
+	  ///ACA ESTOY
+	Group.findOne(
+    { nombregrupo: user.groupname },
+    function (group_err, group) {
+      if (group) {
+		console.log('group')
+		console.log(group)
+		console.log('groupend')
+        user.save().then(
+          function (us) {
+            //alert("Se guardo exitosamente el usuario");
+            User.findOne(
+              {
+                username: req.body.username,
+                password: req.body.password,
+              },
+              function (err, user) {
+                req.session.user_id = user._id;
+                req.session.user = user;
+                res.redirect('/');
+                //res.send("hola mundo");
+              }
+            );
+            //res.redirect("/");
+          },
+          function (err) {
+            if (err) {
+              //console.log(String(err));
+              res.redirect('/login');
+            }
+          }
+        );
+      } else res.redirect('/login');
+      //res.send("hola mundo");
+    }
+  	);
+	
 });
 
 app.get("/close",function(req,res){
@@ -209,7 +248,7 @@ app.post("/uploadmovement",function(req,res){
 		time: new Date(),
 		username: req.session.user.username,
 		groupname: req.session.user.groupname,
-		companyname: req.session.user.companyname,
+		companyname: req.body.companyname,
 		adminname: fondos
 		.map((fd) => fd.depositaria_nombre)
 		.filter((fd) => req.body.fondoname.match(fd))[0],

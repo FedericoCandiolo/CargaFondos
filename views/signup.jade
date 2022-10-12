@@ -10,10 +10,14 @@ block contenido
       input(type="text", name="username",placeholder="Nombre de usuario", class="form-control")
     div
       label(for="grupo") Grupo
-      input(type="text", name="grupo",placeholder="Grupo", class="form-control")
-    div
-      label(for="compania") Compania
-      input(type="text", name="compania",placeholder="Compania", class="form-control")
+      input(type="text", name="grupo",placeholder="Grupo", list="grupos" class="form-control")
+      datalist(id="grupos")
+        for g in groups
+          option(value=g)
+      
+    //- div
+    //-   label(for="compania") Compania
+    //-   input(type="text", name="compania",placeholder="Compania", class="form-control")
     div
       label(for="password") Contraseña
       input(type="password", name="password",placeholder="password", class="form-control")

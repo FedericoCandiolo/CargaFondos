@@ -24,6 +24,12 @@ block contenido
       label(for="fechaoper") Fecha de operación
       input(type="date", name="fechaoper",placeholder="", class="form-control")
     div
+      label(for="companyname") Nombre de la empresa
+      input(type="text", name="companyname",list="empresas",placeholder="Nombre de la empresa", class="form-control")
+      datalist(id="empresas")
+        for empresa in empresas
+          option(value=empresa)
+    div
       label(for="fondoname") Administrador - Nombre de fondo
       input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", class="form-control")
       datalist(id="fondos")
