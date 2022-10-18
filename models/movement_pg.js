@@ -26,7 +26,7 @@ const readPG = async ({ username }) => {
         console.log('NOT OK');
         console.log(err.message);
       }
-      client.end;
+      client.end();
       console.log('QUERY END');
     }
   );
@@ -78,7 +78,7 @@ const insertPG = ({
         console.log('NOT OK');
         console.log(err.message);
       }
-      client.end;
+      client.end();
       console.log('QUERY END');
     }
   );
@@ -146,7 +146,7 @@ const updatePG = ({
         console.log('NOT OK');
         console.log(err.message);
       }
-      client.end;
+      client.end();
       console.log('QUERY END');
     }
   );
@@ -185,7 +185,7 @@ const deletePG = ({
         console.log('NOT OK');
         console.log(err.message);
       }
-      client.end;
+      client.end();
       console.log('QUERY END');
     }
   );
