@@ -12,6 +12,11 @@ var group_schema = new Schema({
     type: String,
     require: true,
     unique: true
+  },
+  empresas: {
+    type: Array,
+    require: true,
+    unique: true
   }
 });
 

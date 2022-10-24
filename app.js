@@ -4,7 +4,6 @@ var bodyParser = require("body-parser");
 var User = require("./models/user").User;
 var Movement = require('./models/movement').Movement;
 var Group = require('./models/group').Group;
-var Company = require('./models/company').Company;
 
 var session = require("express-session");
 var router_app = require("./routes_app");
@@ -60,20 +59,17 @@ app.get("/cmovement",function(req,res){
         // .filter((g) => g._doc.name === req.session.user.groupname)
 		// .map((g) => c._doc.groupid)[0];
 			let usergroupid = doc_group.idgrupo;
-			Company.find((err_comp,doc_comp)=>{
-				console.log(doc_comp);
-				let companies = doc_comp.filter(c=>c._doc.groupid === usergroupid).map(c=>c._doc.companyname);
-				res.render('movement', {
-					user:  req.session.user.username,
-					error: '',
-					empresas: companies,
-					administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
-					//   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
-					fondos: fondos.map(
-						(fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
-					),
-				});
-			});
+			console.log(req.session);
+			res.render('movement', {
+				user: req.session.user.username,
+				error: '',
+				empresas: req.session.user.empresas,
+				administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
+				//   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
+				fondos: fondos.map(
+				(fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
+				),
+      		});
 		})
 		})
 }
@@ -213,7 +209,10 @@ app.post("/users",function(req,res){
               },
               function (err, user) {
                 req.session.user_id = user._id;
-                req.session.user = user;
+				req.session.user = user;
+				req.session.user._doc.empresas = group.empresas;
+				console.log("GRUPO")
+				console.log(group)
                 res.redirect('/');
                 //res.send("hola mundo");
               }
@@ -332,7 +331,13 @@ app.post("/sessions",function(req,res){
 		if(user){
 			req.session.user_id = user._id;
 			req.session.user = user;
-			res.redirect("/");
+			Group.findOne({ nombregrupo: user.groupname }, (errg, group) => {
+				console.log(group);
+				req.session.user._doc.empresas = group.empresas;
+				console.log("SESSION")
+				console.log(req.session)
+				res.redirect("/");
+			});
 		}
 		else res.redirect("/login");
 		//res.send("hola mundo");
