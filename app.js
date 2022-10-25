@@ -82,12 +82,14 @@ function padTo2Digits(num) {
 function formatDate(datestr) {
   if(!datestr) return "";
   let date = new Date(datestr);
+  date.setDate(date.getDate() + 1);
   return `${padTo2Digits(date.getDate())}/${padTo2Digits(date.getMonth()+1)}/${date.getFullYear()}`;
 }
 
 function formatDateYYYYMMDD(datestr) {
   if (!datestr) return '';
   let date = new Date(datestr);
+  date.setDate(date.getDate() + 1);
   return `${date.getFullYear()}${padTo2Digits(date.getMonth() + 1)}${padTo2Digits(
     date.getDate())}`;
 }
@@ -95,6 +97,9 @@ function formatDateYYYYMMDD(datestr) {
 function formatDateYYYY_MM_DD(datestr) {
   if (!datestr) return '';
   let date = new Date(datestr);
+  date.setDate(date.getDate() + 1);
+  console.log("TRACKEO")
+  console.log(date)
   return `${date.getFullYear()}-${padTo2Digits(
     date.getMonth() + 1
   )}-${padTo2Digits(date.getDate())}`;
@@ -165,7 +170,8 @@ app.get('/umovement/:id', function (req, res) {
 	  fechaformat: formatDateYYYY_MM_DD(movimiento.fechaoperacion),
 	  importe: Math.abs(movimiento.importe),
       movimiento,
-      error: '',
+	  error: '',	  
+	  empresas: req.session.user.empresas,
       administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
       fondos: fondos.map(
         (fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
@@ -293,6 +299,7 @@ app.post("/umovement/:id",function(req,res){
 		.map((fd) => fd.clase_fondo_nombre)
 		.filter((fd) => req.body.fondoname.match(fd))[0];
 	movimiento.tipooperacion = req.body.tipooper;
+	movimiento.companyname = req.body.companyname;
 	movimiento.importe = req.body.tipooper === 'Rescate' ? -req.body.importe : req.body.importe;
 
 	console.log("MOVIMIENTO A CARGAR");

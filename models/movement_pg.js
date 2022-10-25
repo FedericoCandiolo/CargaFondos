@@ -102,6 +102,7 @@ const updatePG = ({
     if (!datestr) return '';
     console.log(datestr);
     let date = new Date(datestr);
+    date.setDate(date.getDate() + 1);
     return `${date.getFullYear()}-${padTo2Digits(
       date.getMonth() + 1
     )}-${padTo2Digits(date.getDate())}`;
