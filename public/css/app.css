@@ -1,5 +1,5 @@
 body{
-  background: #ffff;
+  background: #ffffff;
   margin: 20rem;
   text-align: center;
 }
@@ -19,7 +19,7 @@ body{
 
 .btncss{
   background-color: rgb(33, 91, 121);
-  color: white;
+  color: rgb(255, 255, 255);
   border: white solid;
   margin: 1rem 1rem 0 0;
 }
