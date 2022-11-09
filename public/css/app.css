@@ -1,28 +1,33 @@
 body{
-  background-color: #ffff;
-  margin: 5rem;
+  background: #ffff;
+  margin: 20rem;
+  text-align: center;
 }
 
 .block{
   display: block;
+  position: relative;
 }
 
 .flex{
   display: flex;
-  align-content: space-between;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .btncss{
-  background-color: inherit;
-  color: black;
-  border: black solid;
+  background-color: rgb(33, 91, 121);
+  color: white;
+  border: white solid;
   margin: 1rem 1rem 0 0;
 }
 
 .btncss:hover{
-  background-color: #ccc;
-  color: black;
-  border: black solid;
+  background-color: rgb(69, 95, 108);;
+  color: white;
+  border: white solid;
 }
 
 
@@ -39,7 +44,6 @@ body{
 
 .margindown{
   border-collapse: separate; 
-  border-spacing: 0 5em;
-  
+  border-spacing: 0 5em;  
 }
 
