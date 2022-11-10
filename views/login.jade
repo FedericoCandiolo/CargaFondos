@@ -3,10 +3,10 @@ block contenido
   h1 Iniciar Sesión
   form(action="/sessions",method="POST")
     div(class="form-group")
-      label(for="username") Usuario
-      input(type="text", name="username", placeholder="Usuario", class="form-control")
+      label(for="username" class="referencias" ) Usuario
+      input(type="text", name="username", placeholder="E-mail", class="form-control")
     div
-      label(for="password") Contraseña
-      input(type="password", name="password",placeholder="Password", class="form-control")
+      label(for="password" class="referencias") Contraseña
+      input(type="password", name="password",placeholder="Contraseña", class="form-control")
     div
       input(type="submit" value="Iniciar sesión" class="btn btn-info btncss")

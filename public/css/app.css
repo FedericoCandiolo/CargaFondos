@@ -1,12 +1,12 @@
 body{
-  background: #ffffff;
+  background: #dcdcdc;
   margin: 20rem;
-  text-align: center;
+  text-align: center; 
 }
 
 .block{
   display: block;
-  position: relative;
+  position: relative;  
 }
 
 .flex{
@@ -18,14 +18,14 @@ body{
 }
 
 .btncss{
-  background-color: rgb(33, 91, 121);
+  background-color: #1F3556;
   color: rgb(255, 255, 255);
-  border: white solid;
   margin: 1rem 1rem 0 0;
+  border-radius: 25px !important;
 }
 
 .btncss:hover{
-  background-color: rgb(69, 95, 108);;
+  background-color: #91c7c9;
   color: white;
   border: white solid;
 }
@@ -46,4 +46,24 @@ body{
   border-collapse: separate; 
   border-spacing: 0 5em;  
 }
+
+.listabotones{
+  background-color: aquamarine !important;
+}
+
+.form-control{
+	width: 30% !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+label{
+  margin-bottom: 7px !important;
+  margin-top: 7px !important;
+}
+
+.form-group{
+  margin-bottom: 5px !important;
+}
+
 
