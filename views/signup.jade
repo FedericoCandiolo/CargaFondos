@@ -3,14 +3,14 @@ block contenido
   h1 Registrarse
   form(action="/users",method="POST")
     div(class="form-group")
-      label(for="email") Email
-      input(type="text", name="email", placeholder="email@email.com", class="form-control")
+      label(for="email") E-mail
+      input(type="text", name="email", placeholder="email@email.com", class="form-control"  required)
     div
       label(for="username") Nombre de usuario
-      input(type="text", name="username",placeholder="Nombre de usuario", class="form-control")
+      input(type="text", name="username",placeholder="Nombre de usuario", class="form-control"  required)
     div
       label(for="grupo") Grupo
-      input(type="text", name="grupo",placeholder="Grupo", list="grupos" class="form-control")
+      input(type="text", name="grupo",placeholder="Grupo", list="grupos" class="form-control" required)
       datalist(id="grupos")
         for g in groups
           option(value=g)
@@ -20,9 +20,9 @@ block contenido
     //-   input(type="text", name="compania",placeholder="Compania", class="form-control")
     div
       label(for="password") Contraseña
-      input(type="password", name="password",placeholder="password", class="form-control")
+      input(type="password", name="password",placeholder="Contraseña", class="form-control" required)
     div
       label(for="password") Confirma tu contraseña
-      input(type="password", name="password_confirmation",placeholder="password", class="form-control")
+      input(type="password", name="password_confirmation",placeholder="Contraseña", class="form-control"  required)
     div
       input(type="submit" value="Registrarse" class="btn btn-info btncss")
