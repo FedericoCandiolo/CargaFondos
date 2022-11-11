@@ -1,16 +1,13 @@
 extends ./layout.jade
 block contenido
   <h1 class="centrado">Listado de movimientos</h1>
-  <p class="usuarios">Usuario:</p>
-  //p Usuario:
+  <p class="intro"> Usuario: </p>
   p!=user
-  <a href="/close" class="btn btn-primary btn-lg btncss bntubicacion" role="button">Cerrar sesion</a>
-  <a href="/close" class="btn btn-primary btn-lg btncss bntubicacion" role="button">Subir movimiento</a>
-  //a(href="/close" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Cerrar sesión
-  //a(href="/cmovement" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Subir movimiento
+  a(href="/close" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Cerrar sesión
+  a(href="/cmovement" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Subir movimiento
   h3 Mis Movimientos
-  table
-    tr
+  table(class="tablacss")
+    tr(class="header")
       th ID
       th Username
       th Grupo
@@ -34,5 +31,3 @@ block contenido
         td
           a(href=`/umovement/${mov.idoperacion}` class=" btninline " role="button") Modificar
           a(href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button") Eliminar
-  
-  

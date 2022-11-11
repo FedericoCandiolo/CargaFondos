@@ -11,7 +11,7 @@ body{
 }
 
 .block{
-  display: block;
+  display: inline-block;
   position: relative;  
 }
 
@@ -23,6 +23,12 @@ body{
   transform: translate(-50%, -50%);
 }
 /*Botones de ingreso*/
+.btnubicacion{
+  position: relative !important;
+  top: -247px !important;
+  left: 48% !important;
+}
+
 .btncss{
   background-color: #1F3556;
   color: rgb(255, 255, 255);
@@ -78,18 +84,29 @@ label{
   margin-bottom: 5px !important;
 }
 
-.btnubicacion{
-  position: relative !important;
-  right:0px !important;
-  top: 100px !important;
-}
-
 .centrado{
   position: absolute;
   left:6px;
   top:0 !important;
 }
 
-p{
-  top:0 !important;
+.intro{
+  position: relative !important;
+  top: -140px !important;
+  left: 0px !important;
+  right: 0px !important;
+  font-size: medium;
 }
+
+.tablacss{
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  border-bottom: 1px solid #7e7676 !important;
+  border-top: 1px solid #7e7676 !important;
+  border-right: 1px solid #7e7676 !important;
+  border-left: 1px solid #7e7676 !important;
+  background-color: whitesmoke !important;
+}
+
+
