@@ -48,9 +48,6 @@ body{
   border-radius: 1px; 
 }
 
-.padding_r{
-  padding: 0 1rem 0 0;
-}
 
 .btninline{
   font-size: large;
@@ -98,15 +95,20 @@ label{
   font-size: medium;
 }
 
-.tablacss{
+.padding_r{
+  padding: 0 1rem 0 0 !important;
   margin: 0 !important;
-  padding: 0 !important;
   box-sizing: border-box !important;
-  border-bottom: 1px solid #7e7676 !important;
-  border-top: 1px solid #7e7676 !important;
-  border-right: 1px solid #7e7676 !important;
-  border-left: 1px solid #7e7676 !important;
-  background-color: whitesmoke !important;
 }
+
+table{
+  border-bottom: 1px solid #cfcdcd !important;
+  border-top: 1px solid #cfcdcd !important;
+  border-right: 1px solid #cfcdcd  !important;
+  border-left: 1px solid #cfcdcd  !important;
+  background-color: #e9e9e9 !important;
+}
+
+
 
 
