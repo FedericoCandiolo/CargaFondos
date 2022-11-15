@@ -1,5 +1,5 @@
 var express = require("express");
-var bodyParser = require("body-parser");user
+var bodyParser = require("body-parser");
 
 var User = require("./models/user").User;
 var Movement = require('./models/movement').Movement;
