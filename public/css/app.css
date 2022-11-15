@@ -73,7 +73,7 @@ body{
 .btncrrsesion{
   position: absolute !important;
   top: 10px !important;
-  right: 80px !important;
+  right: 200px !important;
 }
 
 .margindown{
@@ -177,4 +177,12 @@ footer{
   display: block;
   bottom: 0px !important;
   text-align: center;
+}
+
+.imgMov{
+  position: absolute !important;
+  width:100px; /* you can use % */
+  height: auto;
+  top: 18px !important;
+  right: 90px !important;
 }

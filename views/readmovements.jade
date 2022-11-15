@@ -2,10 +2,12 @@ extends ./layout.jade
 block contenido
   <h1 class="centrado">OPERACIONES</h1>
   <h3 class="tit2">Nombre del grupo:</h3>
-  h3(class="grupo")!=groupname
+  //h3(class="grupo")!=groupname
+  //p!=groupname
   //a(href="/close" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Cerrar sesión
   a(href="/close" class="btncss btncrrsesion" role="button") Cerrar sesión
   a(href="/cmovement" class="btncss btncarga" role="button") Cargar operación
+  img(src="/estatico/img/CASHIQ.png" alt="logo" class="imgMov")
   //h3 Mis Operaciones
   table(class="table")
     thead
@@ -36,5 +38,5 @@ block contenido
             a(href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button") Eliminar
 
   footer
-    p Usuario
+    p Usuario:
     p!=user
