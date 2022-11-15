@@ -1,9 +1,10 @@
 extends ./layout.jade
 block contenido
-  h1(class="titulo") Cargar movimiento
+  h1(class="cargamov") Cargar operación
   p Usuario:
-  p!=user
-  a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
+  p(class="usuarios")!=user
+  //a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
+  a(href="close" class="btncss btncrrsesion") Cerrar sesión
   form(action="/uploadmovement",method="POST")
     //- div
     //-   label(for="username") Nombre de usuario
