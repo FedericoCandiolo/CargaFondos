@@ -1,18 +1,21 @@
 extends ./layout.jade
 block contenido
-  <h1 class="centrado">Listado de movimientos</h1>
-  <p class="intro"> Usuario: </p>
-  p!=user
-  a(href="/close" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Cerrar sesión
-  a(href="/cmovement" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Subir movimiento
-  h3 Mis Movimientos
-  table( class="table")
+  <h1 class="centrado">OPERACIONES</h1>
+  <h3 class="tit2">Nombre del grupo:</h3>
+  //h3(class="grupo")!=groupname
+  //p!=groupname
+  //a(href="/close" class=" btn btn-primary btn-lg btncss btnubicacion " role="button") Cerrar sesión
+  a(href="/close" class="btncss btncrrsesion" role="button") Cerrar sesión
+  a(href="/cmovement" class="btncss btncarga" role="button") Cargar operación
+  img(src="/estatico/img/CASHIQ.png" alt="logo" class="imgMov")
+  //h3 Mis Operaciones
+  table(class="table")
     thead
       tr
         th(scope="col" class="tabHead") ID
         th(scope="col" class="tabHead") Username
-        th(scope="col" class="tabHead") Grupo
-        th(scope="col" class="tabHead") Compañía
+        //th(scope="col" class="tabHead") Grupo
+        th(scope="col" class="tabHead") Empresa
         th(scope="col" class="tabHead") Administrador
         th(scope="col" class="tabHead") Fondo
         th(scope="col" class="tabHead") Tipo Operación
@@ -21,15 +24,19 @@ block contenido
     tbody(class="table-group-divider")
       for mov in movimientos
         tr(class="margindown")
-          td(scope="row" class="padding_r divider")!=mov.idoperacion
-          td(scope="row" class="padding_r divider")!=mov.username
-          td(scope="row" class="padding_r divider")!=mov.groupname
-          td(scope="row" class="padding_r divider")!=mov.companyname
-          td(scope="row" class="padding_r divider")!=mov.adminname
-          td(scope="row" class="padding_r divider")!=mov.fondoname
-          td(scope="row" class="padding_r divider")!=mov.tipooperacion
-          td(scope="row" class="padding_r divider")!=mov.importe
-          td(scope="row" class="padding_r divider")!=mov.fechaoperacion
+          td(scope="row" class="padding_r divider tabHead")!=mov.idoperacion
+          td(scope="row" class="padding_r divider tabHead")!=mov.username
+          //td(scope="row" class="padding_r divider tabHead")!=mov.groupname
+          td(scope="row" class="padding_r divider tabHead")!=mov.companyname
+          td(scope="row" class="padding_r divider tabHead")!=mov.adminname
+          td(scope="row" class="padding_r divider tabHead")!=mov.fondoname
+          td(scope="row" class="padding_r divider tabHead")!=mov.tipooperacion
+          td(scope="row" class="padding_r divider tabHead")!=mov.importe
+          td(scope="row" class="padding_r divider tabHead")!=mov.fechaoperacion
           td
             a(href=`/umovement/${mov.idoperacion}` class=" btninline " role="button") Modificar
             a(href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button") Eliminar
+
+  footer
+    p Usuario:
+    p!=user
