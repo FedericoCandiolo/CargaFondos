@@ -30,7 +30,7 @@ app.get("/",function(req,res){
 	if(req.session.user_id) res.redirect("/rmovement");
 	else{
 		console.log(req.session.user_id);
-		res.render("index");
+		res.render("index",{user: req.session.user_id});
 	}
 });
 
