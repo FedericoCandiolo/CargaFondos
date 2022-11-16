@@ -270,7 +270,7 @@ app.post("/uploadmovement",function(req,res){
 	getPostgres.insert(movement_obj);
 	movement.save().then(
     function (us) {
-	  res.redirect("/");
+	  res.redirect("/rmovement");
     },
     function (err) {
       if (err) {
@@ -310,7 +310,7 @@ app.post("/umovement/:id",function(req,res){
 	Movement.findOneAndUpdate({idoperacion: req.params.id}, movimiento).then(
     function (us) {
       //alert('Se guardo exitosamente el movimiento');
-      res.redirect('/');
+      res.redirect('/rmovement');
     },
     function (err) {
       if (err) {
