@@ -134,6 +134,7 @@ app.get('/rmovement', function (req, res) {
 
 		res.render('readmovements', {
 			user:  req.session.user.username,
+			group:  req.session.user.groupname,
 			movimientos: mismovimientos,
 		});	
 	});
