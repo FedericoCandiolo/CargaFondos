@@ -110,38 +110,16 @@ const formatMoney = num => Intl.NumberFormat('es-AR', {
   currency: 'ARS',
 }).format(Math.abs(num));
 
-app.get('/rmovement', function (req, res) {
-	if (!req.session.user_id) res.redirect('/');
-	else{
-    Movement.find(function(err,doc){
-		// console.log("DOC");
-		// console.log(doc);
-		let mismovimientos = doc
-      .filter((m) => m.username === req.session.user.username)
-      .map((mov) => ({
-        ...mov._doc,
-        fecha_ts: formatDateYYYYMMDD(mov.fechaoperacion),
-        fechaoperacion: formatDate(mov.fechaoperacion),
-        importe: formatMoney(mov.importe),
-      }))
-      .sort(
-        (m1, m2) =>
-          m1.fecha_ts <= m2.fecha_ts
-	  )
-	  .reverse();
-		
-		console.log(mismovimientos);
-
-		res.render('readmovements', {
-			user:  req.session.user.username,
-			group:  req.session.user.groupname,
-			movimientos: mismovimientos,
-		});	
-	});
+const objIncluido = (con, incl) => {
+	for (const key in incl) {
+		if(con.key !== incl.key) return false;
 	}
-});
+	return true;
+}
 
-app.get('/rmovementloading', function (req, res) {
+const objExisteEnLista = (cons, incl) => cons.filter(con=>objIncluido(con,incl)).length >= 1
+
+app.get('/rmovement', function (req, res) {
   if (!req.session.user_id) res.redirect('/');
   else {
     Movement.find(function (err, doc) {
@@ -158,13 +136,18 @@ app.get('/rmovementloading', function (req, res) {
         .sort((m1, m2) => m1.fecha_ts <= m2.fecha_ts)
         .reverse();
 
-      console.log(mismovimientos);
+	  console.log(mismovimientos);
+	  
+	  console.log("ULTIMO MOVIMIENTO")
+	  console.log(req.session)
 
       res.render('readmovements', {
         user: req.session.user.username,
         group: req.session.user.groupname,
         movimientos: mismovimientos,
-        mensaje: `Hay cambios siendo procesados desde ${Date()}`,
+		mensaje: objExisteEnLista(mismovimientos, req.session.lastmov) ? 
+			null :
+			`Hay cambios siendo procesados desde ${req.session.lastmov.time}`,
       });
     });
   }
@@ -185,7 +168,7 @@ app.get('/dmovement/:id',function(req,res){
 	})
 	.catch(()=>{
 		console.log("NO ELIMINADO!!!")
-		res.redirect('/rmovementloading');
+		res.redirect('/rmovement');
 	});
 	}
 });
@@ -306,6 +289,7 @@ app.post("/uploadmovement",function(req,res){
     .save()
     .then(
       function (us) {
+		  req.session.lastmov = movement;
         res.redirect('/rmovement');
       },
       function (err) {
@@ -323,7 +307,7 @@ app.post("/uploadmovement",function(req,res){
       }
     )
     .catch(function (e) {
-      res.redirect('rmovementloading');
+      res.redirect('rmovement');
     });
 });
 
@@ -348,8 +332,9 @@ app.post("/umovement/:id",function(req,res){
 	getPostgres.update(movimiento);
 	Movement.findOneAndUpdate({idoperacion: req.params.id}, movimiento).then(
     function (us) {
+	  req.session.lastmov = movimiento;
       console.log('Se guardo exitosamente el movimiento');
-      res.redirect('/rmovementloading');
+      res.redirect('/rmovement');
     },
     function (err) {
       if (err) {
