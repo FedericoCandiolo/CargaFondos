@@ -141,6 +141,35 @@ app.get('/rmovement', function (req, res) {
 	}
 });
 
+app.get('/rmovementloading', function (req, res) {
+  if (!req.session.user_id) res.redirect('/');
+  else {
+    Movement.find(function (err, doc) {
+      // console.log("DOC");
+      // console.log(doc);
+      let mismovimientos = doc
+        .filter((m) => m.username === req.session.user.username)
+        .map((mov) => ({
+          ...mov._doc,
+          fecha_ts: formatDateYYYYMMDD(mov.fechaoperacion),
+          fechaoperacion: formatDate(mov.fechaoperacion),
+          importe: formatMoney(mov.importe),
+        }))
+        .sort((m1, m2) => m1.fecha_ts <= m2.fecha_ts)
+        .reverse();
+
+      console.log(mismovimientos);
+
+      res.render('readmovements', {
+        user: req.session.user.username,
+        group: req.session.user.groupname,
+        movimientos: mismovimientos,
+        mensaje: `Hay cambios siendo procesados desde ${Date()}`,
+      });
+    });
+  }
+});
+
 
 app.get('/dmovement/:id',function(req,res){
 	if (!req.session.user_id) res.redirect('/');
@@ -150,9 +179,14 @@ app.get('/dmovement/:id',function(req,res){
 	console.log(req.params.id);
 	getPostgres.delete({idoperacion: req.params.id});
 	Movement.deleteOne({idoperacion: req.params.id})
-	.then(()=>console.log("Eliminado"))
-	.catch(()=>console.log("NO ELIMINADO!!!"));
-	res.redirect('/');
+	.then(()=>{
+		console.log("Eliminado");
+		res.redirect('/rmovement');
+	})
+	.catch(()=>{
+		console.log("NO ELIMINADO!!!")
+		res.redirect('/rmovementloading');
+	});
 	}
 });
 
@@ -270,7 +304,7 @@ app.post("/uploadmovement",function(req,res){
 	getPostgres.insert(movement_obj);
 	movement.save().then(
     function (us) {
-	  res.redirect("/rmovement");
+	  res.redirect("/rmovementloading");
     },
     function (err) {
       if (err) {
@@ -310,7 +344,7 @@ app.post("/umovement/:id",function(req,res){
 	Movement.findOneAndUpdate({idoperacion: req.params.id}, movimiento).then(
     function (us) {
       //alert('Se guardo exitosamente el movimiento');
-      res.redirect('/rmovement');
+      res.redirect('/rmovementloading');
     },
     function (err) {
       if (err) {
