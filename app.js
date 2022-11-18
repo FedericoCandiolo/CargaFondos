@@ -111,8 +111,21 @@ const formatMoney = num => Intl.NumberFormat('es-AR', {
 }).format(Math.abs(num));
 
 const objIncluido = (con, incl) => {
+	// console.log("CON")
+	// console.log(con)
+	// console.log("INCL")
+	// console.log(incl)
 	for (const key in incl) {
-		if(con.key !== incl.key) return false;
+		console.log(`${key} ____ ${con[key]}  ____  ${incl[key]}`);
+		if( key === 'importe' || key === '_id' || key === 'time'){
+			if( 
+				(key === 'importe' && con.importe !== formatMoney(incl.importe)) ||
+				(key === '_id' && con._id.toString() !== incl._id) ||
+				(key === 'time' && con.time.toString() !== incl._id)
+			)
+			return false;
+		}
+		else if((con[key] !== incl[key])) return false;
 	}
 	return true;
 }
