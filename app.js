@@ -119,9 +119,9 @@ const objIncluido = (con, incl) => {
 		console.log(`${key} ____ ${con[key]}  ____  ${incl[key]}`);
 		if( key === 'importe' || key === '_id' || key === 'time'){
 			if( 
-				(key === 'importe' && con.importe !== formatMoney(incl.importe)) ||
-				(key === '_id' && con._id.toString() !== incl._id) ||
-				(key === 'time' && con.time.toString() !== incl._id)
+				(key === 'importe' && con.importe !== formatMoney(incl.importe)) 
+				// (key === '_id' && con._id.toString() !== incl._id) ||
+				// (key === 'time' && con.time.toString() !== incl._id)
 			)
 			return false;
 		}
