@@ -302,24 +302,29 @@ app.post("/uploadmovement",function(req,res){
 	};
 	var movement = new Movement(movement_obj);
 	getPostgres.insert(movement_obj);
-	movement.save().then(
-    function (us) {
-	  res.redirect("/rmovementloading");
-    },
-    function (err) {
-      if (err) {
-		console.log(String(err));
-		res.render('movement', {
-			error: String(err),
-			administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
-			//   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
-			fondos: fondos.map(
-				(fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
-			),
-		});
+	movement
+    .save()
+    .then(
+      function (us) {
+        res.redirect('/rmovement');
+      },
+      function (err) {
+        if (err) {
+          console.log(String(err));
+          res.render('movement', {
+            error: String(err),
+            administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
+            //   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
+            fondos: fondos.map(
+              (fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
+            ),
+          });
+        }
       }
-    }
-  )
+    )
+    .catch(function (e) {
+      res.redirect('rmovementloading');
+    });
 });
 
 app.post("/umovement/:id",function(req,res){
@@ -343,7 +348,7 @@ app.post("/umovement/:id",function(req,res){
 	getPostgres.update(movimiento);
 	Movement.findOneAndUpdate({idoperacion: req.params.id}, movimiento).then(
     function (us) {
-      //alert('Se guardo exitosamente el movimiento');
+      console.log('Se guardo exitosamente el movimiento');
       res.redirect('/rmovementloading');
     },
     function (err) {
