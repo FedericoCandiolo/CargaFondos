@@ -116,16 +116,22 @@ const objIncluido = (con, incl) => {
 	// console.log("INCL")
 	// console.log(incl)
 	for (const key in incl) {
-		console.log(`${key} ____ ${con[key]}  ____  ${incl[key]}`);
-		if( key === 'importe' || key === '_id' || key === 'time'){
-			if( 
-				(key === 'importe' && con.importe !== formatMoney(incl.importe)) 
-				// (key === '_id' && con._id.toString() !== incl._id) ||
-				// (key === 'time' && con.time.toString() !== incl._id)
-			)
-			return false;
-		}
-		else if((con[key] !== incl[key])) return false;
+		console.log(`${key} ____ ${con[key]}  ____  ${key === 'importe' ? formatMoney(incl.importe) : incl[key]}`);
+		if (
+			key === 'importe' ||
+			key === 'fechaoperacion' ||
+			key === '_id' ||
+			key === 'time'
+		) {
+      if (
+        (key === 'importe' && con.importe !== formatMoney(incl.importe)) ||
+        (key === 'fechaoperacion' &&
+          con.fechaoperacion !== formatDate(incl.fechaoperacion))
+        //(key === '_id' && con._id.toString() !== incl._id)
+        // (key === 'time' && con.time.toString() !== incl._id)
+      )
+        return false;
+    } else if (con[key] !== incl[key]) return false;
 	}
 	return true;
 }
