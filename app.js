@@ -166,7 +166,7 @@ app.get('/rmovement', function (req, res) {
         movimientos: mismovimientos,
 		mensaje: objExisteEnLista(mismovimientos, req.session.lastmov) ? 
 			null :
-			`Hay cambios siendo procesados desde ${req.session.lastmov}`,
+			`Hay cambios siendo procesados desde ${req.session.lastmov.time}`,
       });
     });
   }
