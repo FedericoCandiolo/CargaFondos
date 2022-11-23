@@ -138,6 +138,16 @@ const objIncluido = (con, incl) => {
 
 const objExisteEnLista = (cons, incl) => cons.filter(con=>objIncluido(con,incl)).length >= 1
 
+const head = ([h]) => h;
+const tail = ([, ...t]) => t;
+
+const compareArrays = (a1, a2) => {
+	if(a1.length === 0) return true;
+	if(a2.length === 0) return false;
+	if(a1[0] === a2[0]) return compareArrays(tail(a1), tail(a2));
+	return a1[0] <= a2[0];
+}
+
 app.get('/rmovement', function (req, res) {
   if (!req.session.user_id) res.redirect('/');
   else {
@@ -149,16 +159,18 @@ app.get('/rmovement', function (req, res) {
         .map((mov) => ({
           ...mov._doc,
           fecha_ts: formatDateYYYYMMDD(mov.fechaoperacion),
+		  fecha_ts_arr: Array.from(formatDateYYYYMMDD(mov.fechaoperacion)),
           fechaoperacion: formatDate(mov.fechaoperacion),
           importe: formatMoney(mov.importe),
         }))
-        .sort((m1, m2) => m1.fecha_ts <= m2.fecha_ts)
+        .sort((m1, m2) => compareArrays(m1.fecha_ts_arr, m2.fecha_ts_arr))
         .reverse();
 
 	  console.log(mismovimientos);
 	  
 	  console.log("ULTIMO MOVIMIENTO")
 	  console.log(req.session)
+	  mismovimientos.map(mov => console.log(mov.fecha_ts_arr));
 
       res.render('readmovements', {
         user: req.session.user.username,

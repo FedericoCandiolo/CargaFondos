@@ -19,7 +19,7 @@ block contenido
     thead
       tr
         th(scope="col" class="tabHead") Fecha
-        th(scope="col" class="tabHead hide1") ID
+        th(scope="col" class="tabHead ") ID
         th(scope="col" class="tabHead hide1") Username
         th(scope="col" class="tabHead hide1") Grupo
         th(scope="col" class="tabHead") Empresa
@@ -31,7 +31,7 @@ block contenido
       for mov in movimientos
         tr(class="margindown")
           td(scope="row" class="padding_r divider tabHead")!=mov.fechaoperacion
-          td(scope="row" class="padding_r divider tabHead hide1")!=mov.idoperacion
+          td(scope="row" class="padding_r divider tabHead ")!=mov.idoperacion
           td(scope="row" class="padding_r divider tabHead hide1")!=mov.username
           td(scope="row" class="padding_r divider tabHead hide1")!=mov.groupname
           td(scope="row" class="padding_r divider tabHead")!=mov.companyname
