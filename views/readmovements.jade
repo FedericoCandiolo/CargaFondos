@@ -19,9 +19,9 @@ block contenido
     thead
       tr
         th(scope="col" class="tabHead") Fecha
-        th(scope="col" class="tabHead") ID
-        th(scope="col" class="tabHead") Username
-        //th(scope="col" class="tabHead") Grupo
+        th(scope="col" class="tabHead hide1") ID
+        th(scope="col" class="tabHead hide1") Username
+        th(scope="col" class="tabHead hide1") Grupo
         th(scope="col" class="tabHead") Empresa
         th(scope="col" class="tabHead") Administrador
         th(scope="col" class="tabHead") Fondo
@@ -31,9 +31,9 @@ block contenido
       for mov in movimientos
         tr(class="margindown")
           td(scope="row" class="padding_r divider tabHead")!=mov.fechaoperacion
-          td(scope="row" class="padding_r divider tabHead")!=mov.idoperacion
-          td(scope="row" class="padding_r divider tabHead"!=mov.username
-          //td(scope="row" class="padding_r divider tabHead")!=mov.groupname
+          td(scope="row" class="padding_r divider tabHead hide1")!=mov.idoperacion
+          td(scope="row" class="padding_r divider tabHead hide1")!=mov.username
+          td(scope="row" class="padding_r divider tabHead hide1")!=mov.groupname
           td(scope="row" class="padding_r divider tabHead")!=mov.companyname
           td(scope="row" class="padding_r divider tabHead")!=mov.adminname
           td(scope="row" class="padding_r divider tabHead")!=mov.fondoname
@@ -43,6 +43,6 @@ block contenido
             a(href=`/umovement/${mov.idoperacion}` class=" btninline " role="button") Modificar
             a(href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button") Eliminar
 
-  footer
+  footer(class="toright")
     p Usuario:
     p!=user
