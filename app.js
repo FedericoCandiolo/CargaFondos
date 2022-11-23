@@ -110,35 +110,66 @@ const formatMoney = num => Intl.NumberFormat('es-AR', {
   currency: 'ARS',
 }).format(Math.abs(num));
 
-app.get('/rmovement', function (req, res) {
-	if (!req.session.user_id) res.redirect('/');
-	else{
-    Movement.find(function(err,doc){
-		// console.log("DOC");
-		// console.log(doc);
-		let mismovimientos = doc
-      .filter((m) => m.username === req.session.user.username)
-      .map((mov) => ({
-        ...mov._doc,
-        fecha_ts: formatDateYYYYMMDD(mov.fechaoperacion),
-        fechaoperacion: formatDate(mov.fechaoperacion),
-        importe: formatMoney(mov.importe),
-      }))
-      .sort(
-        (m1, m2) =>
-          m1.fecha_ts <= m2.fecha_ts
-	  )
-	  .reverse();
-		
-		console.log(mismovimientos);
-
-		res.render('readmovements', {
-			user:  req.session.user.username,
-			group:  req.session.user.groupname,
-			movimientos: mismovimientos,
-		});	
-	});
+const objIncluido = (con, incl) => {
+	// console.log("CON")
+	// console.log(con)
+	// console.log("INCL")
+	// console.log(incl)
+	for (const key in incl) {
+		console.log(`${key} ____ ${con[key]}  ____  ${key === 'importe' ? formatMoney(incl.importe) : incl[key]}`);
+		if (
+			key === 'importe' ||
+			key === 'fechaoperacion' ||
+			key === '_id' ||
+			key === 'time'
+		) {
+      if (
+        (key === 'importe' && con.importe !== formatMoney(incl.importe)) ||
+        (key === 'fechaoperacion' &&
+          con.fechaoperacion !== formatDate(incl.fechaoperacion))
+        //(key === '_id' && con._id.toString() !== incl._id)
+        // (key === 'time' && con.time.toString() !== incl._id)
+      )
+        return false;
+    } else if (con[key] !== incl[key]) return false;
 	}
+	return true;
+}
+
+const objExisteEnLista = (cons, incl) => cons.filter(con=>objIncluido(con,incl)).length >= 1
+
+app.get('/rmovement', function (req, res) {
+  if (!req.session.user_id) res.redirect('/');
+  else {
+    Movement.find(function (err, doc) {
+      // console.log("DOC");
+      // console.log(doc);
+      let mismovimientos = doc
+        .filter((m) => m.username === req.session.user.username)
+        .map((mov) => ({
+          ...mov._doc,
+          fecha_ts: formatDateYYYYMMDD(mov.fechaoperacion),
+          fechaoperacion: formatDate(mov.fechaoperacion),
+          importe: formatMoney(mov.importe),
+        }))
+        .sort((m1, m2) => m1.fecha_ts <= m2.fecha_ts)
+        .reverse();
+
+	  console.log(mismovimientos);
+	  
+	  console.log("ULTIMO MOVIMIENTO")
+	  console.log(req.session)
+
+      res.render('readmovements', {
+        user: req.session.user.username,
+        group: req.session.user.groupname,
+        movimientos: mismovimientos,
+		mensaje: objExisteEnLista(mismovimientos, req.session.lastmov) ? 
+			null :
+			`Hay cambios siendo procesados desde ${req.session.lastmov.time}`,
+      });
+    });
+  }
 });
 
 
@@ -150,9 +181,14 @@ app.get('/dmovement/:id',function(req,res){
 	console.log(req.params.id);
 	getPostgres.delete({idoperacion: req.params.id});
 	Movement.deleteOne({idoperacion: req.params.id})
-	.then(()=>console.log("Eliminado"))
-	.catch(()=>console.log("NO ELIMINADO!!!"));
-	res.redirect('/');
+	.then(()=>{
+		console.log("Eliminado");
+		res.redirect('/rmovement');
+	})
+	.catch(()=>{
+		console.log("NO ELIMINADO!!!")
+		res.redirect('/rmovement');
+	});
 	}
 });
 
@@ -268,24 +304,30 @@ app.post("/uploadmovement",function(req,res){
 	};
 	var movement = new Movement(movement_obj);
 	getPostgres.insert(movement_obj);
-	movement.save().then(
-    function (us) {
-	  res.redirect("/");
-    },
-    function (err) {
-      if (err) {
-		console.log(String(err));
-		res.render('movement', {
-			error: String(err),
-			administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
-			//   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
-			fondos: fondos.map(
-				(fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
-			),
-		});
+	movement
+    .save()
+    .then(
+      function (us) {
+		  req.session.lastmov = movement;
+        res.redirect('/rmovement');
+      },
+      function (err) {
+        if (err) {
+          console.log(String(err));
+          res.render('movement', {
+            error: String(err),
+            administradores: unique(fondos.map((fd) => fd.depositaria_nombre)),
+            //   fondos: fondos.map((fd) => fd.clase_fondo_nombre),
+            fondos: fondos.map(
+              (fd) => fd.depositaria_nombre + ' - ' + fd.clase_fondo_nombre
+            ),
+          });
+        }
       }
-    }
-  )
+    )
+    .catch(function (e) {
+      res.redirect('rmovement');
+    });
 });
 
 app.post("/umovement/:id",function(req,res){
@@ -309,8 +351,9 @@ app.post("/umovement/:id",function(req,res){
 	getPostgres.update(movimiento);
 	Movement.findOneAndUpdate({idoperacion: req.params.id}, movimiento).then(
     function (us) {
-      //alert('Se guardo exitosamente el movimiento');
-      res.redirect('/');
+	  req.session.lastmov = movimiento;
+      console.log('Se guardo exitosamente el movimiento');
+      res.redirect('/rmovement');
     },
     function (err) {
       if (err) {

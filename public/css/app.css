@@ -13,7 +13,8 @@ h1.cargamov{
 
 /*Fondo de la pagina*/
 body{
-  background: #dcdcdc;
+  /* background: #dcdcdc; */
+  background: #fcfcfc;
   /*margin: 20rem;*/
   padding: 0;
   text-align: center; 
@@ -41,12 +42,23 @@ body{
   background-color: #1F3556;
   color: rgb(255, 255, 255);
   margin: 1rem 1rem 0 0;
-  border-radius: 25px !important;
+  border-radius: 0.5rem; /*25px !important;*/ /* JOACO Sandra me pidio que los botones sean cuadrados como qlik*/
   border: 0;
   width: 200px;
   padding: 10px 0;
   box-shadow: 0 0 20px rgba(67, 63, 84, 0.2);
   transition: 0.4s;
+}
+
+.nombregrupoposicion{
+  position: relative !important;
+  top: -247px !important;
+  /* left: 48% !important; */
+}
+
+.toright{
+  text-align: right;
+  margin-right: 10rem;
 }
 
 .btncss:hover{
@@ -142,7 +154,8 @@ table.table{
   border-bottom: 1px solid #cfcdcd !important;
   border-top: 1px solid #cfcdcd !important;
   border-right: 1px solid #cfcdcd  !important;
-  background-color: #e9e9e9 !important;
+  /* background-color: #e9e9e9 !important; */
+  background-color: #ffffff !important;
   table-layout: auto !important;
   height: 600px !important;
 }
@@ -185,4 +198,9 @@ footer{
   height: auto;
   top: 18px !important;
   right: 90px !important;
+}
+
+.cartel{
+  background-color:#337ab7;
+  
 }

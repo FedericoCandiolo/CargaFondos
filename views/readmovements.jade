@@ -2,11 +2,18 @@ extends ./layout.jade
 script(src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous") 
 block contenido
   <h1 class="centrado">OPERACIONES</h1>
-  <h3 class="tit2">Nombre del grupo:</h3>
-  h3(class="grupo")!=group
+  //- <h3 class="tit2">Nombre del grupo:</h3>
+  div(class="nombregrupoposicion")
+    h2(class="grupo ")!=group
   a(href="/close" class="btncss btncrrsesion" role="button") Cerrar sesión
   a(href="/cmovement" class="btncss btncarga" role="button") Cargar operación
   img(src="/estatico/img/CASHIQ.png" alt="logo" class="imgMov")
+
+  if mensaje != undefined
+    div(class='cartel')
+      h2 Cargando Movimiento
+      p!=mensaje
+
   //h3 Mis Operaciones
   table(class="table")
     thead
@@ -34,32 +41,8 @@ block contenido
           td(scope="row" class="padding_r divider tabHead")!=mov.importe
           td
             a(href=`/umovement/${mov.idoperacion}` class=" btninline " role="button") Modificar
-            a(onclick="show()" href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button" id="btn") Eliminar
-            //button(onclick="geek()" href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button") Eliminar
+            a(href=`/dmovement/${mov.idoperacion}` class=" btninline" role="button") Eliminar
 
-      script.
-        function show() {
-          alert("Operacion eliminada")
-        }     
-    //-
-      script.
-        function geek(){
-          confirm( "Operacion eliminada"
-            
-          )
-        }
-      
-    //-  script.
-        function alert() {
-            if (confirm("Operacion eliminado")){
-              do $(mov.idoperacion)}
-            else{
-              event.preventDefault();
-            }
-
-            };
-        };
-      
-  footer    
+  footer
     p Usuario:
     p!=user
