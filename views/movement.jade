@@ -44,7 +44,7 @@ block contenido
         option(value="Rescate")
     div
       label(for="importe") Importe
-      input(type="number", name="importe",placeholder="0", class="form-control")
+      input(type="number", name="importe",placeholder="0", class="form-control", step=".01")
     p(class="error")!=error
     div
       input(type="submit" value="Subir Movimiento" class="btn btn-info btncss")
