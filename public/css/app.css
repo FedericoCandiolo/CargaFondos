@@ -168,6 +168,7 @@ th.tabHead{
   padding: 4px 1rem 5px 5px !important;
   text-align: center;
   border-right:  1px solid #cfcdcd !important;
+  border-left:  1px solid #cfcdcd !important;
   white-space: nowrap !important;
 }
 
