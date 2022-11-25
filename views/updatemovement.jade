@@ -1,34 +1,36 @@
 extends ./layout.jade
 block contenido
-  h1(class="titulo") Modificar movimiento
-  p Usuario:
-  p!=user
-  a(href="/close" class="btn btn-primary btn-lg btncss " role="button") Cerrar sesión
-  form(action=`/umovement/${movimiento.idoperacion}`,method="POST")
-    div
-      label(for="fechaoper") Fecha de operación
-      input(type="date", name="fechaoper",placeholder="", value= fechaformat class="form-control")
-    div
-      label(for="companyname") Nombre de la empresa
-      input(type="text", name="companyname",list="empresas",placeholder="Nombre de la empresa", value=movimiento.companyname class="form-control")
-      datalist(id="empresas")
-        for empresa in empresas
-          option(value=empresa)
-    div
-      label(for="fondoname") Administrador - Nombre de fondo
-      input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", value = movimiento.adminname + ' - ' + movimiento.fondoname class="form-control")
-      datalist(id="fondos")
-        for fondo in fondos
-          option(value=fondo)
-    div
-      label(for="tipooper") Tipo de operación
-      input(type="text", name="tipooper", list="operaciones", placeholder="Tipo de operación", value = movimiento.tipooperacion, class="form-control")
-      datalist(id="operaciones")
-        option(value="Suscripción")
-        option(value="Rescate")
-    div
-      label(for="importe") Importe
-      input(type="number", name="importe",placeholder="0", class="form-control", value = importe, step=".01")
-    p(class="error")!=error
-    div
-      input(type="submit" value="Modificar Movimiento" class="btn btn-info btncss")
+    h1(class="cargamov") Modificar movimiento
+    p Usuario:
+    p!=user
+    a(href="/close" class="btn btn-primary btn-lg btncss btncrrsesion" role="button") Cerrar sesión
+    form(action=`/umovement/${movimiento.idoperacion}`,method="POST")
+      div
+        label(for="fechaoper") Fecha de operación
+        input(type="date", name="fechaoper",placeholder="", value= fechaformat class="form-control")
+      div
+        label(for="companyname") Nombre de la empresa
+        input(type="text", name="companyname",list="empresas",placeholder="Nombre de la empresa", value=movimiento.companyname class="form-control")
+        datalist(id="empresas")
+          for empresa in empresas
+            option(value=empresa)
+      div
+        label(for="fondoname") Administrador - Nombre de fondo
+        input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", value = movimiento.adminname + ' - ' + movimiento.fondoname class="form-control")
+        datalist(id="fondos")
+          for fondo in fondos
+            option(value=fondo)
+      div
+        label(for="tipooper") Tipo de operación
+        input(type="text", name="tipooper", list="operaciones", placeholder="Tipo de operación", value = movimiento.tipooperacion, class="form-control")
+        datalist(id="operaciones")
+          option(value="Suscripción")
+          option(value="Rescate")
+      div
+        label(for="importe") Importe
+        input(type="number", name="importe",placeholder="0", class="form-control", value = importe, step=".01")
+      p(class="error")!=error
+      div
+        input(type="submit" value="Modificar Movimiento" class="btn btn-info btncss btn-primary btn-lg")
+      div
+          a(href="/" class="btn btn-primary btn-lg btn-cancel" role="button") Cancelar

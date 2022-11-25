@@ -1,6 +1,6 @@
 extends ./layout.jade
 block contenido
-  h1(class="titulo") Registrarse
+  h1(class="cargamov") Registrarse
   form(action="/users",method="POST")
     div(class="form-group")
       label(for="email") E-mail
@@ -25,4 +25,6 @@ block contenido
       label(for="password") Confirma tu contraseña
       input(type="password", name="password_confirmation",placeholder="Contraseña", class="form-control"  required)
     div
-      input(type="submit" value="Registrarse" class="btn btn-info btncss")
+      input(type="submit" value="Registrarse" class="btn btn-info btncss btn-primary btn-lg")
+    div
+        a(href="/" class="btn btn-primary btn-lg btn-cancel" role="button") Cancelar

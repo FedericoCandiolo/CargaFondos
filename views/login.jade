@@ -1,6 +1,6 @@
 extends ./layout.jade
 block contenido
-  h1(class="titulo") Iniciar Sesión
+  h1(class="cargamov") Iniciar Sesión
   form(action="/sessions",method="POST")
     div(class="form-group")
       label(for="username") Usuario
@@ -10,4 +10,5 @@ block contenido
       input(type="password", name="password",placeholder="Contraseña", class="form-control" required)
     div
       input(type="submit" value="Iniciar sesión" class="btn btn-info btn-primary btn-lg btncss")
-  
+    div
+        a(href="/" class="btn btn-primary btn-lg btn-cancel" role="button") Cancelar

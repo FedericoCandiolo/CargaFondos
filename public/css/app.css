@@ -54,6 +54,21 @@ body{
   transition: 0.4s;
 }
 
+.btn-cancel{
+    display: block !important;
+    display: inline-block !important;
+    text-align: center !important;
+    background-color: #454a52;
+    color: rgb(255, 255, 255);
+    margin: 1rem 1rem 0 0;
+    border-radius: 0.5rem; 
+    border: 0;
+    width: 150px;
+    padding: 10px 0;
+    box-shadow: 0 0 20px rgba(67, 63, 84, 0.2);
+    transition: 0.4s; 
+}
+
 .nombregrupoposicion{
   position: relative !important;
   top: -247px !important;
@@ -215,6 +230,5 @@ footer{
 }
 
 .cartel{
-  background-color:#337ab7;
-  
+  background-color:#337ab7; 
 }
