@@ -177,6 +177,11 @@ app.get('/rmovement', function (req, res) {
   }
 });
 
+app.get('/reloading',function(req,res){
+	//setTimeout(() => res.redirect('/rmovement'), 5000);
+	res.render('reloading');
+});
+
 
 app.get('/dmovement/:id',function(req,res){
 	if (!req.session.user_id) res.redirect('/');
@@ -314,7 +319,8 @@ app.post("/uploadmovement",function(req,res){
     .then(
       function (us) {
 		  req.session.lastmov = movement;
-        res.redirect('/rmovement');
+        res.redirect('/reloading');
+        // res.redirect('/rmovement');
       },
       function (err) {
         if (err) {
