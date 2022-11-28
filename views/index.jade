@@ -1,5 +1,32 @@
 extends ./layout.jade
 block contenido
+  section(class="container forms")
+        div(class="form inicio")
+            div(class="form-content")
+                img(src="/estatico/img/CASHIQ.png" alt="logo" class="imgMov1")
+                header Listado De Operaciones
+                    form(action="#")
+                      if user == undefined
+                        div(class="field button-field")
+                            a(href="/login" class="btn btn-primary btn-lg btncss") Iniciar Sesión
+                        div(class="field button field")
+                            a(href="/signup" class="btn btn-primary btn-lg btncss") Registrarse
+                      else
+                        div(class="field button-field")
+                            a(href="/close" class="btn btn-primary btn-lg btncss") Cerrar Sesion
+                        div(class="field button field")
+                            a(href="/rmovement" class="btn btn-primary btn-lg btncss") Ver mis movimientos
+
+
+
+
+
+
+
+
+
+
+//-
   h1(class="titulo") Listado de Operaciones
   div(class="flex")
       if user == undefined

@@ -1,5 +1,53 @@
 extends ./layout.jade
 block contenido
+  section(class="container forms")
+        div(class="form login")
+            div(class="form-content")
+              header Registrarse
+                form(action="/users",method="POST")
+                    div(class="field input-field")
+                        input(type="text", name="email", placeholder="email@email.com", class="input"  required)
+                    div(class="field input-field") 
+                        input(type="text", name="username",placeholder="Nombre de usuario", class="input"  required)
+                    div(class="field input-field")
+                      input(type="text", name="grupo",placeholder="Grupo", list="grupos" class="input" required)
+                      datalist(id="grupos")
+                        for g in groups
+                          option(value=g)
+                    div(class="field input-field")
+                      input(type="password", name="password",placeholder="Contraseña", class="password" required)
+                    div(class="field input-field")
+                      input(type="password", name="password_confirmation",placeholder="Contraseña", class="password"  required)
+                      i(class="bx bx-hide eye-icon")
+                    div(class="field button-field")
+                      input(type="submit" value="Registrarse" id="inicio" class="btn btn-info btncss btn-primary btn-lg")
+                    div(class="field button-field")
+                      a(href="/" class="btn btn-primary btn-lg btncss btn-cancel") Cancelar
+    
+    script.
+      const form= document.querySelector(".form"),
+        pwShowHide = document.querySelectorAll(".eye-icon");
+      pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+            pwFields.forEach(password => {
+                if(password.type === "password"){
+                    password.type = "text";
+                    eyeIcon.classList.replace("bx-hide", "bx-show");
+                    return;
+                }
+                  password.type = "password";
+                  eyeIcon.classList.replace("bx-show", "bx-hide");
+            })
+          
+        })
+      })
+
+
+
+
+
+//-
   h1(class="cargamov") Registrarse
   form(action="/users",method="POST")
     div(class="form-group")

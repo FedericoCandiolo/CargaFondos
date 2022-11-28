@@ -32,16 +32,17 @@ body{
   transform: translate(-50%, -50%);
 }
 
-/*Botones de ingreso*/
+/*Botones de ingreso
 .btnubicacion{
   position: relative !important;
   top: -247px !important;
   left: 48% !important;
-}
-
-.btncss{
   display: block !important;
   display: inline-block !important;
+  box-shadow: 0 0 20px rgba(67, 63, 84, 0.2);
+}*/
+
+.btncss{
   text-align: center !important;
   background-color: #1F3556;
   color: rgb(255, 255, 255);
@@ -50,8 +51,8 @@ body{
   border: 0;
   width: 200px;
   padding: 10px 0;
-  box-shadow: 0 0 20px rgba(67, 63, 84, 0.2);
   transition: 0.4s;
+  text-decoration: none !important;
 }
 
 .btn-cancel{
@@ -83,9 +84,8 @@ body{
 .btncss:hover{
   background-color: #91c7c9;
   color: white;
-  border: #91c7c9;
-  border-radius: 1px; 
 }
+
 
 .btninline{
   font-size: large;
@@ -230,5 +230,110 @@ footer{
 }
 
 .cartel{
+  display: flex;
+  position: absolute;
   background-color:#337ab7; 
 }
+
+/*Login-Box*/
+.container{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*background-color: #fcfcfc;*/
+}
+
+.form{
+  position: absolute;
+  border-radius: 6px;
+  max-width: 430px;
+  width: 100%;
+  padding: 30px;
+  background: rgba(245, 245, 245, 0.859);
+  box-shadow: rgba(41, 41, 46, 0.534) 0px 7px 29px 0px;
+}
+
+.imgMov1{
+  top: 50%;
+  height: 70px;
+  margin: 20px;
+}
+
+header{
+  font-size: 28px;
+  font-weight: 600;
+  color:black;
+  text-align: center;
+}
+
+form{
+  margin-top: 30px;
+}
+
+.form .field{
+  position: relative;
+  height: 45px;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.field a,
+.field input{
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    border-radius: 0.5rem;
+}
+
+.field input{
+  outline: none;
+  padding: 0 15px;
+  border: 1px solid #CACACA
+}
+
+.field input:focus{
+  border-bottom-width: 2px;
+}
+
+.field a{
+  color: #ffff;
+  background-color: #1f3556;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.field a:hover{
+  background-color: #91c7c9;
+  border-radius: 6px;
+}
+
+.eye-icon{
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #8b8b8b;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#inicio{
+  color: #ffff;
+  background-color: #1f3556;
+  transition: 0.4s;
+  cursor: pointer;
+  position: relative;
+  border-radius: 6px;
+}
+
+#inicio:hover{
+  background-color: #91c7c9;
+  border-radius: 6px;
+  border-color: #91c7c9;
+}
+

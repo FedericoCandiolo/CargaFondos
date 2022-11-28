@@ -2,8 +2,7 @@ extends ./layout.jade
 script(src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous") 
 script(src="https://kit.fontawesome.com/d2631904d0.js" crossorigin="anonymous")
 block contenido
-  <h1 class="centrado">OPERACIONES</h1>
-  //- <h3 class="tit2">Nombre del grupo:</h3>
+  h1(class="centrado") OPERACIONES
   div(class="nombregrupoposicion")
     h2(class="grupo ")!=group
   a(href="/close" class="btncss btncrrsesion" role="button") Cerrar sesión
@@ -15,7 +14,6 @@ block contenido
       h2 Cargando Movimiento
       p!=mensaje
 
-  //h3 Mis Operaciones
   div
     table(class="table")
       thead
