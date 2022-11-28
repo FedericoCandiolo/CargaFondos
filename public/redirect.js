@@ -1,4 +1,4 @@
 setTimeout(function () {
-  alert('Redirigiendo...')  
+  //alert('Redirigiendo...')
   window.location.href = '/rmovement';
 }, 5000);

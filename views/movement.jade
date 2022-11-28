@@ -1,9 +1,45 @@
 extends ./layout.jade
 block contenido
+  a(href="close" class="btncss btncrrsesion") Cerrar sesión
+  section(class="container forms")
+        div(class="form login")
+            div(class="form-content")
+              header Cargar operación
+              div(class="user")
+                  p Usuario: 
+                  p!=user
+                form(action="/uploadmovement",method="POST")
+                  div(class="field input-field")
+                    input(type="date", name="fechaoper",placeholder="", class="input")
+                  div(class="field input-field") 
+                    input(type="text", name="companyname",list="empresas",placeholder="Nombre de la empresa", class="input")
+                    datalist(id="empresas")
+                      for empresa in empresas
+                        option(value=empresa)
+                  div(class="field input-field")
+                      input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", class="input")
+                      datalist(id="fondos")
+                        for fondo in fondos
+                          option(value=fondo)
+                  div(class="field input-field")
+                      input(type="text", name="tipooper", list="operaciones", placeholder="Tipo de operación", class="input")
+                      datalist(id="operaciones")
+                        option(value="Suscripción")
+                        option(value="Rescate")
+                  div(class="field input-field")
+                        input(type="number", name="importe",placeholder="Importe", class="input", step=".01")
+                      p(class="error")!=error
+                  div(class="field button-field")
+                      input(type="submit" value="Subir Movimiento" class="btn btn-info btncss btn-primary btn-lg")
+                  div(class="field button-field")
+                      a(href="/" class="btn btn-primary btn-lg btncss btn-cancel hidden animated") Cancelar
+
+
+//-
   h1(class="cargamov") Cargar operación
   p Usuario:
   p(class="usuarios")!=user
-  //a(href="/close" class="btn btn-primary btn-lg btncss" role="button") Cerrar sesión
+  
   a(href="close" class="btncss btncrrsesion") Cerrar sesión
   form(action="/uploadmovement",method="POST")
     //- div

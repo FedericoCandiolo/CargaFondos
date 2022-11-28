@@ -1,5 +1,42 @@
 extends ./layout.jade
 block contenido
+  a(href="close" class="btncss btncrrsesion") Cerrar sesión
+  section(class="container forms")
+        div(class="form login")
+            div(class="form-content")
+              header Modificar Operacion
+              div(class="user")
+                  p Usuario: 
+                  p!=user
+                form(action=`/umovement/${movimiento.idoperacion}`,method="POST")
+                  div(class="field input-field")
+                    input(type="date", name="fechaoper",placeholder="", value= fechaformat class="input")
+                  div(class="field input-field") 
+                    input(type="text", name="companyname",list="empresas",placeholder="Nombre de la empresa", value=movimiento.companyname class="input")
+                    datalist(id="empresas")
+                      for empresa in empresas
+                        option(value=empresa)
+                  div(class="field input-field")
+                      input(type="text", name="fondoname",list="fondos",placeholder="Nombre del fondo", value = movimiento.adminname + ' - ' + movimiento.fondoname class="input")
+                      datalist(id="fondos")
+                        for fondo in fondos
+                          option(value=fondo)
+                  div(class="field input-field")
+                      input(type="text", name="tipooper", list="operaciones", placeholder="Tipo de operación", value = movimiento.tipooperacion, class="input")
+                      datalist(id="operaciones")
+                        option(value="Suscripción")
+                        option(value="Rescate")
+                  div(class="field input-field")
+                        input(type="number", name="importe",placeholder="0", class="input", value = importe, step=".01")
+                      p(class="error")!=error
+                  div(class="field button-field")
+                      input(type="submit" value="Modificar Movimiento" class=" btn btn-info btncss btn-primary btn-lg")
+                  div(class="field button-field")
+                      a(href="/" id="cancel" class="btn btn-primary btn-lg btncss btn-cancel") Cancelar
+
+
+
+//-
     h1(class="cargamov") Modificar movimiento
     p Usuario:
     p!=user

@@ -193,7 +193,7 @@ app.get('/dmovement/:id',function(req,res){
 	Movement.deleteOne({idoperacion: req.params.id})
 	.then(()=>{
 		console.log("Eliminado");
-		res.redirect('/rmovement');
+		res.redirect('/reloading');
 	})
 	.catch(()=>{
 		console.log("NO ELIMINADO!!!")
@@ -364,7 +364,7 @@ app.post("/umovement/:id",function(req,res){
     function (us) {
 	  req.session.lastmov = movimiento;
       console.log('Se guardo exitosamente el movimiento');
-      res.redirect('/rmovement');
+      res.redirect('/reloading');
     },
     function (err) {
       if (err) {
