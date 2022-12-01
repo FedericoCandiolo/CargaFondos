@@ -147,7 +147,7 @@ app.get('/rmovement', function (req, res) {
     Movement.find(function (err, doc) {
       // console.log("DOC");
       // console.log(doc);
-      let mismovimientos = doc
+      let mismovimientos = doc ? doc
         .filter((m) => m.username === req.session.user.username)
         .map((mov) => ({
           ...mov._doc,
@@ -155,9 +155,9 @@ app.get('/rmovement', function (req, res) {
           fechaoperacion: formatDate(mov.fechaoperacion),
           importe: formatMoney(mov.importe),
         }))
-        .sort((m1, m2) => `${m1.fecha_ts}` <= `${m2.fecha_ts}`)
+        .sort((m1, m2) => m1.fecha_ts - m2.fecha_ts)
         // .sort((m1, m2) => m1.fecha_ts <= m2.fecha_ts)
-        .reverse();
+        .reverse() : [];
 
 	  console.log(mismovimientos);
 	  
@@ -180,6 +180,11 @@ app.get('/rmovement', function (req, res) {
 app.get('/reloading',function(req,res){
 	//setTimeout(() => res.redirect('/rmovement'), 5000);
 	res.render('reloading');
+});
+
+app.get('/loggingon',function(req,res){
+	//setTimeout(() => res.redirect('/rmovement'), 5000);
+	res.render('loggingon');
 });
 
 
@@ -398,7 +403,7 @@ app.post("/sessions",function(req,res){
 				req.session.user._doc.empresas = group.empresas;
 				console.log("SESSION")
 				console.log(req.session)
-				res.redirect("/");
+				res.redirect("/loggingon");
 			});
 		}
 		else res.redirect("/login");
