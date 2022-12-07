@@ -2,12 +2,19 @@ extends ./layout.jade
 script(src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous") 
 script(src="https://kit.fontawesome.com/d2631904d0.js" crossorigin="anonymous")
 block contenido
-  h1(class="centrado") OPERACIONES
-  div(class="gruposmov")
-    h2(style="margin-top:40px")!=group
-  a(href="/close" class="btncss btncrrsesion" role="button") Cerrar sesión
-  a(href="/cmovement" class="btncss btncarga" role="button") Cargar operación
-  img(src="/estatico/img/CASHIQ.png" alt="logo" class="imgMov")
+  nav
+    h1 OPERACIONES
+    //- h1(class="centrado") OPERACIONES
+    //- div(class="gruposmov")
+    h1!=group
+    //- h1(style="margin-top:40px")!=group
+    div(class="block bghighlight")
+      a(href="/close" class="btncss" role="button") Cerrar sesión
+      a(href="/cmovement" class="btncss" role="button") Cargar operación
+      //- a(href="/close" class="btncss btncrrsesion" role="button") Cerrar sesión
+      //- a(href="/cmovement" class="btncss btncarga" role="button") Cargar operación
+      
+      img(src="/estatico/img/CASHIQ.png" alt="logo" class="imgMov")
 
   //- if mensaje != undefined
     div(class='cartel')
