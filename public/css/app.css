@@ -30,8 +30,19 @@ nav{
   flex-flow: row;
   justify-content: space-between;
   margin: 2rem;
-  background-color: inherit;
-  border-radius: 0.5rem;
+  color: white;
+  background-color: #1F3556;
+  margin: 0;
+}
+
+.btnav{
+  margin-right: 3rem !important;
+  padding: 10px 20px 10px 20px !important;
+}
+
+.navtitle{
+  margin-left: 3%;
+  margin-top: 10px !important;
 }
 
 .bghighlight {
@@ -267,6 +278,7 @@ footer{
   /* position: absolute !important; */
   width:100px; /* you can use % */
   height: auto;
+  padding-right: 3rem;
   /* top: 18px !important;
   right: 90px !important; */
 }
