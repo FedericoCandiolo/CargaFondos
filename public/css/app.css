@@ -36,12 +36,16 @@ nav{
 }
 
 .btnav{
-  margin-right: 3rem !important;
+  margin-right: 1rem !important;
   padding: 10px 20px 10px 20px !important;
 }
 
 .navtitle{
   margin-left: 3%;
+  margin-top: 10px !important;
+}
+
+.group-nav{
   margin-top: 10px !important;
 }
 
