@@ -223,8 +223,15 @@ table.table{
   height:60vh !important;
 }
 
+thead th
+{
+  position: sticky;
+  top: 0px;
+  background-color: #cfcdcd ;
+}
+
 th.tabHead{
-  width: 50% !important;
+  width: 20%;
   padding: 4px 1rem 5px 5px !important;
   text-align: center;
   border-right:  1px solid #cfcdcd !important;
@@ -233,7 +240,8 @@ th.tabHead{
 }
 
 td.tabHead{
-  width:50% !important;
+
+  width: 20%;
   padding: 4px 1rem 5px 5px !important;
   text-align: center;
   border-right:  1px solid #cfcdcd !important;
